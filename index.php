@@ -1,60 +1,211 @@
-<?
-include('database.php');
-
-?>
 <?php
-            $fecha_ahora = date('Y-m-d', time());
-            $dias = 7;
-            $incidencias_totales = 0;
-            $reportes_totales = 0;
-            $auditorias_totales = 0;
-            $ausencias_totales = 0;
-              for($i=1;$i<=$dias;$i++)
-              {
-                $resta = $i - $dias;
-                $fecha_variable = date("Y-m-d", strtotime($resta." day"));
-                if($resta == 0)
-                {
-                  $fecha_variable = $fecha_ahora;
-                }
-                $sql = "SELECT * FROM incidencias WHERE fecha = '$fecha_variable'";
-                if($fo = mysqli_query($link, $sql))
-                {
-                  $incidencias_totales += $fo->num_rows;
-                }
-                $sql = "SELECT * FROM reportes WHERE fecha = '$fecha_variable'";
-                if($fo = mysqli_query($link, $sql))
-                {
-                  $reportes_totales += $fo->num_rows;
-                }
-                $sql = "SELECT * FROM auditorias WHERE fecha = '$fecha_variable'";
-                if($fo = mysqli_query($link, $sql))
-                {
-                  $auditorias_totales += $fo->num_rows;
-                }
-                $sql = "SELECT * FROM ausencias_rot WHERE fecha = '$fecha_variable' AND ausente='true'";
-                if($fo = mysqli_query($link, $sql))
-                {
-                  $ausencias_totales += $fo->num_rows;
-                }
-              }
-              ?>
+ini_set( 'error_reporting', E_ALL );
+ini_set( 'display_errors', true );
+include('database.php');
+require('protect.php');
+include('errores.php');
+$fecha_ahora = date('Y-m-d', time());
+$dias = 7;
+$incidencias_totales = 0;
+$reportes_totales = 0;
+$auditorias_totales = 0;
+$ausencias_totales = 0;
+$iduser = $_SESSION["user_id"];
+for($i=1;$i<=1;$i++)
+{
+$resta = $i - $dias;
+$fecha_variable = date("Y-m-d", time());
+if($resta == 0)
+{
+	$fecha_variable = $fecha_ahora;
+}
+$sql = "SELECT * FROM incidencias WHERE fecha = '$fecha_variable'";
+if($fo = mysqli_query($link, $sql))
+{
+	$incidencias_totales += $fo->num_rows;
+}
+$sql = "SELECT * FROM reportes WHERE fecha = '$fecha_variable'";
+if($fo = mysqli_query($link, $sql))
+{
+	$reportes_totales += $fo->num_rows;
+}
+$sql = "SELECT * FROM auditorias WHERE fecha = '$fecha_variable'";
+if($fo = mysqli_query($link, $sql))
+{
+	$auditorias_totales += $fo->num_rows;
+}
+$sql = "SELECT * FROM ausencias_rot WHERE fecha = '$fecha_variable'  AND ausente = 'true'";
+if($fo = mysqli_query($link, $sql))
+{
+	$ausencias_totales += $fo->num_rows;
+}
+}
+	
+if(isset($_GET["comenzar"]) && isset($_POST["tipo_turno"]))
+{
+$tipo_turno = $_POST["tipo_turno"];
+$unix = time();
+  $sql = "INSERT INTO `turnos` (`id`, `encargado`, `unix`, `estado`, `tipo`) VALUES (NULL, '$iduser', '$unix', 'abierto', '$tipo_turno')";
+  mysqli_query($link, $sql);
+  $_SESSION["turno"] = mysqli_insert_id($link);
+  header("location: index.php");
+}
+if(isset($_GET["reanudar"]))
+{
+	$sql = "SELECT * FROM turnos WHERE encargado = '$iduser' AND estado = 'abierto'";
+				if($do = mysqli_query($link, $sql))
+				{
+					$info_turno = mysqli_fetch_assoc($do);
+					$_SESSION["turno"] = $info_turno["id"];
+					header("location: index.php");
+				}
+}
+if(isset($_GET["cerrar"]))
+{
+	$sql = "SELECT * FROM turnos WHERE encargado = '$iduser' AND estado = 'abierto'";
+				if($do = mysqli_query($link, $sql))
+				{
+					$info_turno = mysqli_fetch_assoc($do);
+					$_SESSION["turno"] = $info_turno["id"];
+				}
+	$turno = $_SESSION["turno"];
+	$sql = "UPDATE `turnos` SET `estado` = 'cerrado' WHERE `turnos`.`id` = $turno";
+	if($do = mysqli_query($link, $sql))
+	{
+		unset($_SESSION["turno"]);
+		header("location: index.php");
+	}
+}
+
+if(isset($_POST['operario']))
+{
+$err = false;
+if(isset($_POST["puesto1"]) && $_POST["horas1"])
+{
+
+}else
+{
+	if(!isset($_POST["ausente"]))
+	{
+		header('Location: index.php?err=3');
+		$err = true;
+	}
+}
+$ausente = "false";
+$causa_ausencia = "";
+$operario_nuevo = $_POST['operario'];
+$puesto1_nuevo = $_POST["puesto1"];
+if($puesto1_nuevo=="" && !isset($_POST["ausente"]))
+{
+	header("location: index.php?err=1");
+	$err = true;
+}
+$horas1_nuevo = $_POST["horas1"];
+$puesto2_nuevo = "";
+$horas2_nuevo = 0;
+if(isset($_POST["ausente"]))
+{
+	$ausente = "true";
+	if(isset($_POST['causa-ausente']))
+	{
+		$causa_ausencia = $_POST["causa-ausente"];
+	}
+	if($_POST["causa-ausente"] == "")
+	{
+		header("Location: index.php?err=0");
+		$err = true;
+	}
+}
+if(isset($_POST["puesto2"]))
+{
+	$puesto2_nuevo = $_POST["puesto2"];
+	
+}
+if(isset($_POST["horas2"]))
+{
+	$horas2_nuevo = $_POST["horas2"];
+}
+if(!$horas2_nuevo > 0)
+{
+	$horas2_nuevo = 0;
+}
+if(!$horas1_nuevo > 0)
+{
+	$horas1_nuevo = 0;
+}
+if($_POST["horas2"] == NULL && $_POST["puesto2"] != NULL)
+	{
+		header("Location: index.php?err=2");
+		$err = true;
+	}
+$turno_id = $_SESSION["turno"];
+$sql = "SELECT * FROM turnos WHERE id = '$turno_id'";
+if($do = mysqli_query($link, $sql))
+{
+	$info_turno = mysqli_fetch_assoc($do);
+	$turno_actual = $info_turno["tipo"];
+	$fecha_unix = date("Y-m-d", time());
+	if($causa_ausencia == NULL && $ausente == 'true')
+	{
+		header("Location: ./index.php?err=0");
+		$err = true;
+	}
+	$sql2 = "SELECT * FROM ausencias_rot WHERE num_operario = '$operario_nuevo' AND turno = '$turno_id'";
+	if($do = mysqli_query($link, $sql2)){
+	$duplicado = false;
+	while($fila = mysqli_fetch_assoc($do))
+	{
+		$duplicado=true;
+	}
+	if($err == false)
+	{
+		/* ESTO ES PARA DEBUG<<<< */
+		if($duplicado == false){
+		$sql = "INSERT INTO `ausencias_rot` (`id`, `fecha`, `num_operario`, `ausente`, `causa`, `puesto1`, `puesto2`, `horas1`, `horas2`, `turno`) VALUES (NULL, '$fecha_unix', '$operario_nuevo', '$ausente', '$causa_ausencia', '$puesto1_nuevo', '$puesto2_nuevo', '$horas1_nuevo', '$horas2_nuevo', '$turno_id')";
+		if($do = mysqli_query($link, $sql))
+		{
+	
+		}else
+		{
+			
+		echo mysqli_error($link);
+	}
+	}else
+	{
+		header('Location: ./index.php?err=4');
+	}
+}
+}else
+	{
+		print(mysqli_error($link));
+		exit;
+	}
+	
+	}else
+	{
+		
+	echo mysqli_error($link);
+	}
+}
+
+if(isset($_POST["borrar_ficha"]))
+{
+	$operario_borrar = $_POST["borrar_ficha"];
+	$sql = "DELETE FROM `ausencias_rot` WHERE `ausencias_rot`.`id` = $operario_borrar;";
+	mysqli_query($link, $sql);
+	header("location: index.php");
+}
+?>
 <!doctype html>
-<!--
-* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
-* @version 1.0.0-alpha.22
-* @link https://tabler.io
-* Copyright 2018-2021 The Tabler Authors
-* Copyright 2018-2021 codecalm.net Paweł Kuna
-* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
--->
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>CPControl</title>
-    <!-- CSS files -->
+	<script src="./dist/js/fontawesome.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="./dist/js/jquery.dataTables.css"/>
     <link href="./dist/libs/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
     <link href="./dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="./dist/css/tabler-flags.min.css" rel="stylesheet"/>
@@ -64,14 +215,12 @@ include('database.php');
   </head>
   <body class="antialiased">
     <div class="page">
-      <?include("topbar.php");?>
+      <?php include('topbar.php');?>
       <div class="content">
         <div class="container-xl">
-          <!-- Page title -->
           <div class="page-header d-print-none">
             <div class="row align-items-center">
               <div class="col">
-                <!-- Page pre-title -->
                 <div class="page-pretitle">
                   Resumen
                 </div>
@@ -79,7 +228,6 @@ include('database.php');
                   Administración
                 </h2>
               </div>
-              <!-- Page title actions -->
               <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                   <span class="d-none d-sm-inline">
@@ -87,9 +235,9 @@ include('database.php');
                      Hacer un cambio
                     </a>
                   </span>
-                  <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+                  <a href="#" class="btn btn-danger d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                    Crear una incidencia
+                    Reportar una irregularidad
                   </a>
                   <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
@@ -99,24 +247,32 @@ include('database.php');
             </div>
           </div>
           <div class="row row-deck row-cards">
+			  <?php
+			 if(isset($_GET["err"]))
+			 {
+				 $mensaje = error($_GET["err"]);
+				 echo('<div class="col-12">
+				 <div class="card" style="color:red">
+				   <div class="card-header">
+					 <h3 class="card-title">Error</h3>
+				   </div>
+				   <div class="card-body">
+					 <p>'.$mensaje.'</p>
+				   </div>
+				 </div>
+			   </div>');
+			 } 
+			  ?>
           <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex align-items-center">
                     <div class="subheader">Incidencias</div>
                     <div class="ms-auto lh-1">
-                      <div class="dropdown">
-                        <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Últimos 7 dias</a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item active" href="#">Últimos 7 dias</a>
-                          <a class="dropdown-item" href="#">Últimos 30 dias</a>
-                          <a class="dropdown-item" href="#">Últimos 3 meses</a>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <div class="d-flex align-items-baseline">
-                    <div class="h1 mb-0 me-2"><?echo $incidencias_totales;?></div>
+                    <div class="h1 mb-0 me-2"><?php $incidencias_totales;?></div>
                     <div class="me-auto">
                     </div>
                   </div>
@@ -130,18 +286,11 @@ include('database.php');
                   <div class="d-flex align-items-center">
                     <div class="subheader">Reportes</div>
                     <div class="ms-auto lh-1">
-                      <div class="dropdown">
-                        <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Últimos 7 dias</a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item active" href="#">Últimos 7 dias</a>
-                          <a class="dropdown-item" href="#">Últimos 30 dias</a>
-                          <a class="dropdown-item" href="#">Últimos 3 meses</a>
-                        </div>
-                      </div>
+                      
                     </div>
                   </div>
                   <div class="d-flex align-items-baseline">
-                    <div class="h1 mb-0 me-2"><?echo $reportes_totales?></div>
+                    <div class="h1 mb-0 me-2"><?php echo $reportes_totales?></div>
                     <div class="me-auto">
                     </div>
                   </div>
@@ -155,14 +304,7 @@ include('database.php');
                   <div class="d-flex align-items-center">
                     <div class="subheader">Auditorias</div>
                     <div class="ms-auto lh-1">
-                      <div class="dropdown">
-                      <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Últimos 7 dias</a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item active" href="#">Últimos 7 dias</a>
-                          <a class="dropdown-item" href="#">Últimos 30 dias</a>
-                          <a class="dropdown-item" href="#">Últimos 3 meses</a>
-                        </div>
-                      </div>
+                      
                     </div>
                   </div>
                   <div class="d-flex align-items-baseline">
@@ -180,18 +322,11 @@ include('database.php');
                   <div class="d-flex align-items-center">
                     <div class="subheader">Ausencias</div>
                     <div class="ms-auto lh-1">
-                      <div class="dropdown">
-                      <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Últimos 7 dias</a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item active" href="#">Últimos 7 dias</a>
-                          <a class="dropdown-item" href="#">Últimos 30 dias</a>
-                          <a class="dropdown-item" href="#">Últimos 3 meses</a>
-                        </div>
-                      </div>
+                      
                     </div>
                   </div>
                   <div class="d-flex align-items-baseline">
-                    <div class="h1 mb-3 me-2"><?echo $ausencias_totales?></div>
+                    <div class="h1 mb-3 me-2"><?php echo $ausencias_totales?></div>
                     <div class="me-auto">
                     </div>
                   </div>
@@ -199,26 +334,193 @@ include('database.php');
                 </div><div id="chart-active-users" class="chart-sm"></div>
               </div>
             </div>
-            
-            
-          </div>
-        </div>
-        
+		  </div>
+		  <br>
+		  <?php if(isset($_SESSION["turno"])){
+$sql = "SELECT * FROM personal";
+if($do = mysqli_query($link, $sql))
+{}
+echo('<div class="col-12">
+<div class="card">
+  <div class="card-header">
+	<h3 class="card-title">Fichar operarios</h3>
+  </div>
+  <div class="card-body">
+	<form action="./index.php" method="POST">
+  <select name="operario" id="" required="" class="form-select">');
+		  while($row = mysqli_fetch_assoc($do))
+		  {
+			  echo('<option value='.$row["id"].'>'.$row["num_operario"].' - '.$row['nombre'].'</option>');
+		  }
+		  echo('
+  </select><br><label class="form-check">
+  <input class="form-check-input" name="ausente" type="checkbox">
+  <span class="form-check-label">Ausente</span>
+</label>
+<label class="form-label">Causa</label>
+<input type="text" class="form-control" value="" name="causa-ausente" placeholder="En caso de ausente, intoducir causa, si no, dejar en blanco">
+<br>
+<h2>Rotaciones</h2>
+
+<div class="row">
+<div class="col-6">
+<label class="form-label">Puesto 1</label>
+<select name="puesto1" id="" class="form-select">
+<option value="" selected>Seleccione</option>');
+$sql = "SELECT * FROM puestos";
+$do = mysqli_query($link, $sql);
+		  while($row = mysqli_fetch_assoc($do))
+		  {
+			  echo('<option value='.$row["id"].'>'.$row['nombre'].'</option>');
+		  }
+		  echo('
+  </select><br>
+</div>
+<div class="col-6">
+<label class="form-label">Horas</label>
+<input type="number" class="form-control" name="horas1" placeholder="Horas...">
+<br>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<label class="form-label">Puesto 2 (opcional)</label>
+<select name="puesto2" id="" class="form-select">
+<option value="" selected>Seleccione</option>');
+$sql = "SELECT * FROM puestos";
+$do = mysqli_query($link, $sql);
+		  while($row = mysqli_fetch_assoc($do))
+		  {
+			  echo('<option value='.$row["id"].'>'.$row['nombre'].'</option>');
+		  }
+		  echo('
+  </select><br>
+</div>
+<div class="col-6">
+<label class="form-label">Horas</label>
+<input type="number" class="form-control" name="horas2" placeholder="Horas...">
+<br>
+</div>
+</div>
+  <button type="submit" class="btn btn-primary ms-auto">
+  Fichar
+  </button>
+  </form>
+');
+
+		  }?><br>
+		  <?php
+		  if(isset($_SESSION["turno"])){
+		  $turno = $_SESSION["turno"];
+		  $sql = "SELECT * FROM ausencias_rot WHERE turno = $turno";
+		  $do = mysqli_query($link, $sql);
+		if(isset($_SESSION["turno"])&&$do->num_rows != 0)
+		{
+			echo('
+		  <div class="col-12">
+                          <div class="card" style="padding:20px">
+						  <table id="table_id" class="display">
+		  	<thead>
+				  <tr>
+					  <th>Nombre</th>
+					  <th>Ausente</th>
+					  <th>Causa</th>
+					  <th>Puesto 1</th>
+					  <th>Horas</th>
+					  <th>Puesto 2</th>
+					  <th>Horas</th>
+					  <th>Fecha y Hora</th>
+				  </tr>
+			  </thead>
+			  <tbody>');
+			
+			while($row = mysqli_fetch_assoc($do))
+			{
+				$num_operario = $row["num_operario"];
+				$sql = "SELECT * FROM personal WHERE id = '$num_operario'";
+				$buscar = mysqli_query($link, $sql);
+				$datos_operador = mysqli_fetch_assoc($buscar);
+				if($row['ausente']=="true")
+				{
+					$ausente = 'SI';
+				}else
+				{
+					$ausente = 'NO';
+				}
+				$puesto1 = $row["puesto1"];
+				$puesto2 = $row["puesto2"];
+			
+				if($puesto1>0)
+				{
+					$sql = "SELECT * FROM puestos WHERE id = $puesto1";
+					$p1 = mysqli_query($link, $sql);
+					$result = mysqli_fetch_assoc($p1);
+					$puesto1 = $result["nombre"];
+				}
+				
+				if($puesto2>0)
+				{
+					$sql = "SELECT * FROM puestos WHERE id = $puesto2";
+				$p1 = mysqli_query($link, $sql);
+				$result = mysqli_fetch_assoc($p1);
+				$puesto2 = $result["nombre"];
+				}
+				$fecha = $row["fecha"];
+				echo('<tr>
+				<td>'.$datos_operador['nombre'].'</td>
+				<td>'.$ausente.'</td>
+				<td>'.$row['causa'].'</td>
+				<td>'.$puesto1.'</td>
+				<td>'.$row["horas1"].'</td>
+				<td>'.$puesto2.'</td>
+				<td>'.$row["horas2"].'</td>
+				<td>'.$fecha.'</td>
+				<td><form method="POST"><input type="hidden" name="borrar_ficha" value="'.$row["id"].'"><button><i class="fas fa-trash"></i></button></form></td>
+				<td><button><i class="fas fa-pen"></i></button></td>
+				</tr>');
+			}
+			echo(' 
+			  </tbody>
+		  </table>
+		
+                            </div>
+                          </div>
+                        </div>');
+		}
+	}
+		?>
+
+</div>
+</div>
+</div>
+	  </div>
       </div>
-    </div>
+	</div>
+	
     <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+		<form action="">
           <div class="modal-header">
-            <h5 class="modal-title">New report</h5>
+            <h5 class="modal-title">Reportar nueva irregularidad</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control" name="example-text-input" placeholder="Your report name">
+              <label class="form-label">Operario Afectado</label>
+              <select name="operario_inc" required id="" class="form-select">
+			  <?php
+			  $sql = "SELECT * FROM personal";
+			  if($do = mysqli_query($link, $sql)){
+				  echo('<option value="" selected>Seleccione</option>');
+			 while($row = mysqli_fetch_assoc($do))
+			 {
+				 echo('<option value='.$row["id"].'>'.$row["num_operario"].' - '.$row['nombre'].'</option>');
+			 } }
+			  ?>
+			  </select>
             </div>
-            <label class="form-label">Report type</label>
+            <label class="form-label">Tipo de irregularidad</label>
             <div class="form-selectgroup-boxes row mb-3">
               <div class="col-lg-6">
                 <label class="form-selectgroup-item">
@@ -228,8 +530,8 @@ include('database.php');
                       <span class="form-selectgroup-check"></span>
                     </span>
                     <span class="form-selectgroup-label-content">
-                      <span class="form-selectgroup-title strong mb-1">Simple</span>
-                      <span class="d-block text-muted">Provide only basic data needed for the report</span>
+                      <span class="form-selectgroup-title strong mb-1">Accidente</span>
+                      <span class="d-block text-muted">Un operario ha sufrido un accidente.</span>
                     </span>
                   </span>
                 </label>
@@ -242,79 +544,74 @@ include('database.php');
                       <span class="form-selectgroup-check"></span>
                     </span>
                     <span class="form-selectgroup-label-content">
-                      <span class="form-selectgroup-title strong mb-1">Advanced</span>
-                      <span class="d-block text-muted">Insert charts and additional advanced analyses to be inserted in the report</span>
+                      <span class="form-selectgroup-title strong mb-1">Reporte</span>
+                      <span class="d-block text-muted">Un operario ha hecho algo que no deberia...</span>
                     </span>
                   </span>
                 </label>
               </div>
-            </div>
+			</div>
+			
             <div class="row">
               <div class="col-lg-8">
                 <div class="mb-3">
-                  <label class="form-label">Report url</label>
+                  <label class="form-label">Escribe la causa</label>
                   <div class="input-group input-group-flat">
                     <span class="input-group-text">
-                      https://tabler.io/reports/
                     </span>
-                    <input type="text" class="form-control ps-0"  value="report-01" autocomplete="off">
+                    <input type="text" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
                   </div>
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="mb-3">
-                  <label class="form-label">Visibility</label>
-                  <select class="form-select">
-                    <option value="1" selected>Private</option>
-                    <option value="2">Public</option>
-                    <option value="3">Hidden</option>
+                  <label class="form-label">Puesto</label>
+                  <select class="form-select" required>
+					<?php
+					$sql = "SELECT * FROM puestos";
+					$do = mysqli_query($link, $sql);
+					echo('<option value="" selected>Selccione</option>');
+					while($curro = mysqli_fetch_assoc($do))
+					{
+						
+						echo('<option value="'.$curro["id"].'">'.$curro["nombre"].'</option>');
+					}
+					?>
                   </select>
                 </div>
               </div>
             </div>
           </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="mb-3">
-                  <label class="form-label">Client name</label>
-                  <input type="text" class="form-control">
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="mb-3">
-                  <label class="form-label">Reporting period</label>
-                  <input type="date" class="form-control">
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div>
-                  <label class="form-label">Additional information</label>
-                  <textarea class="form-control" rows="3"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
+          
           <div class="modal-footer">
             <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-              Cancel
+              Cancelar
             </a>
-            <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+            <button type="submit" class="btn btn-primary ms-auto">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-              Create new report
-            </a>
+              Crear nueva irregularidad
+            </button>
           </div>
+		  </form>
         </div>
       </div>
     </div>
-    <!-- Libs JS -->
+	<!-- Libs JS -->
+
     <script src="./dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./dist/libs/jquery/dist/jquery.slim.min.js"></script>
     <script src="./dist/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="./dist/libs/jqvmap/dist/jquery.vmap.min.js"></script>
     <script src="./dist/libs/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <!-- Tabler Core -->
-    <script src="./dist/js/tabler.min.js"></script>
+	<!-- Tabler Core -->
+	<script type="text/javascript" src="./dist/js/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="./dist/js/jquery.dataTables.js"></script>
+	<script src="./dist/js/tabler.min.js"></script>
+	<script>
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+</script>
     <script>
       // @formatter:off
       document.addEventListener("DOMContentLoaded", function () {
@@ -1114,6 +1411,11 @@ include('database.php');
       	})).render();
       });
       // @formatter:on
-    </script>
+	</script>
+	<script>
+		if (window.history.replaceState) { // verificamos disponibilidad
+    window.history.replaceState(null, null, window.location.href);
+}
+	</script>
   </body>
 </html>

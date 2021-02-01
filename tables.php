@@ -1,3 +1,11 @@
+<?php
+include(__DIR__  . "/database.php");
+$link = conectar();
+require(__DIR__  . "/protect.php");
+protect();
+?>
+
+
 <!doctype html>
 <!--
 * Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
@@ -14,6 +22,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Personal</title>
     <!-- CSS files -->
+
+    <link rel="stylesheet" type="text/css" href="./dist/js/jquery.dataTables.css"/>
     <link href="./dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="./dist/css/tabler-flags.min.css" rel="stylesheet"/>
     <link href="./dist/css/tabler-payments.min.css" rel="stylesheet"/>
@@ -35,13 +45,50 @@
               </div>
             </div>
           </div>
-          
+          <table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Número</th>
+            <th>Turno</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        
+          $sql = "SELECT * FROM personal";
+          if($do = mysqli_query($link, $sql))
+          {
+            while($row = mysqli_fetch_assoc($do))
+            {
+              echo("<tr>
+              <td>".$row["num_operario"]."</td>
+              <td>".$row["turno"]."</td>
+              <td>".$row["nombre"]."</td>
+              <td>".$row["telefono"]."</td>
+          </tr>");
+            }
+          }
+
+        ?>
+    </tbody>
+</table>
         </div>
       </div>
     </div>
+    <script type="text/javascript" src="./dist/js/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="./dist/js/jquery.dataTables.js"></script>
     <!-- Libs JS -->
     <script src="./dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Tabler Core -->
     <script src="./dist/js/tabler.min.js"></script>
+
+    
+<script>
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+</script>
   </body>
 </html>
