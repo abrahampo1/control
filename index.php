@@ -484,10 +484,16 @@ $do = mysqli_query($link, $sql);
 				if($row["horas2"] == 0)
 				{
 					$horas2 = "-----";
+				}else
+				{
+					$horas2=$row["horas2"];
 				}
 				if($row["horas1"] == 0)
 				{
 					$horas1 = "-----";
+				}else
+				{
+					$horas1=$row["horas1"];
 				}
 				$fecha = $row["fecha"];
 				echo('<tr>
@@ -655,7 +661,9 @@ $do = mysqli_query($link, $sql);
 		  </form>
         </div>
       </div>
-    </div>
+	</div>
+
+	
 	<!-- Libs JS -->
 
     <script src="./dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -1477,5 +1485,24 @@ $(document).ready( function () {
     window.history.replaceState(null, null, window.location.href);
 }
 	</script>
+	<footer class="footer">
+        <div class="container">
+          <div class="row align-items-center flex-row-reverse">
+            <div class="col-auto ml-lg-auto">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  </ul>
+                </div>
+                <div class="col-auto">
+                  <a href="https://github.com/abrahampo1/control" class="btn btn-outline-primary btn-sm">Código Fuente</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
+              Copyright © 2021 <a href="mailto:abraham@cpsoftware.es">CPSoftware</a>. </a>El programa ha sido creado por Abraham Leiro Fernandez y Rubén Bendaña Couse.
+            </div>
+          </div>
+        </div>
+      </footer>
   </body>
 </html>
