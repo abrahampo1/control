@@ -195,6 +195,14 @@ if(isset($_POST["borrar_ficha"]))
 	mysqli_query($link, $sql);
 	header("location: index.php");
 }
+
+if(isset($_POST["input_cambio"]))
+{
+	$turno_id = $_SESSION["turno"];
+	$cambio = $_POST["input_cambio"];
+	$sql = "INSERT INTO `cambios` (`id`, `fecha`, `turno`, `cambio`) VALUES (NULL, '$fecha_ahora', '$turno_id', '$cambio')";
+	mysqli_query($link, $sql);
+}
 ?>
 <!doctype html>
 <html lang="es">
