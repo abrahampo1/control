@@ -39,7 +39,16 @@ if($do = mysqli_query($link, $sql))
             
             <div class="nav-item dropdown">
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                <span class="avatar avatar-sm" style="background-image: url(./dist/img/avatar/ruben.jpg)"></span>
+              <?php
+              if(file_exists("./dist/img/avatar/".$iduser.".png"))
+              {
+                echo('<span class="avatar avatar-sm" style="background-image: url(./dist/img/avatar/'.$iduser.'.png)"></span>');
+              }else
+              {
+                echo('<span class="avatar avatar-sm" style="background-image: url(./dist/img/avatar/default.png)"></span>');
+              }
+              ?>
+                
                 <div class="d-none d-xl-block ps-2">
                   <div><?php echo $info_usuario["nombre"]?></div>
                   <div class="mt-1 small text-muted"></div>
