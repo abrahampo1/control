@@ -29,7 +29,7 @@ if($do = mysqli_query($link, $sql))
                 if($do = mysqli_query($link, $sql))
                 {
                   $info_turno = mysqli_fetch_assoc($do);
-                  echo('Registrando informacion al turno '.$info_turno["tipo"].'#'.$turno_id.'.');
+                  echo('Turno '.$info_turno["tipo"].'#'.$turno_id.'.');
                 }
             }
             ?>

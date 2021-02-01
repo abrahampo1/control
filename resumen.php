@@ -45,7 +45,7 @@ if(!isset($_SESSION["turno"]))
 * Copyright 2018-2021 codecalm.net Paweł Kuna
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
 -->
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
@@ -67,7 +67,7 @@ if(!isset($_SESSION["turno"]))
             <div class="row align-items-center">
               <div class="col">
                 <!-- Page pre-title -->
-				<div class="d-print-none row"><div><button class="btn btn-primary d-none d-sm-inline-block" onclick="goBack()">Retroceder</button></div></div><div><button class="btn btn-primary d-none d-sm-inline-block" onclick="goBack()">Retroceder</button></div> <br>
+				<div class="d-print-none col-auto btn-list"><div class=""><button class="btn btn-primary d-none d-sm-inline-block" onclick="goBack()">Retroceder</button></div><div class=""><button class="btn btn-primary d-none d-sm-inline-block" onclick="window.print();return false;">Imprimir</button></div></div> <br>
 				 <div class="page-pretitle">
 				 
 				 ILUNION Servicios Industriales<br>

@@ -1,8 +1,6 @@
 <?php
-include(__DIR__  . "/database.php");
-$link = conectar();
-require(__DIR__  . "/protect.php");
-protect();
+include('database.php');
+require('protect.php');
 ?>
 
 
@@ -15,7 +13,7 @@ protect();
 * Copyright 2018-2021 codecalm.net Paweł Kuna
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
 -->
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
@@ -32,7 +30,7 @@ protect();
   </head>
   <body class="antialiased">
     <div class="page">
-      <?include("topbar.php");?>
+      <?php include("topbar.php");?>
       <div class="content">
         <div class="container-xl">
           <!-- Page title -->

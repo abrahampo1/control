@@ -197,7 +197,7 @@ if(isset($_POST["borrar_ficha"]))
 }
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -231,7 +231,7 @@ if(isset($_POST["borrar_ficha"]))
               <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                   <span class="d-none d-sm-inline">
-                    <a href="#" class="btn btn-white">
+                    <a href="#" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#hacer-cambio">
                      Hacer un cambio
                     </a>
                   </span>
@@ -272,7 +272,7 @@ if(isset($_POST["borrar_ficha"]))
                     </div>
                   </div>
                   <div class="d-flex align-items-baseline">
-                    <div class="h1 mb-0 me-2"><?php $incidencias_totales;?></div>
+                    <div class="h1 mb-0 me-2"><?php echo $incidencias_totales;?></div>
                     <div class="me-auto">
                     </div>
                   </div>
@@ -429,7 +429,9 @@ $do = mysqli_query($link, $sql);
 					  <th>Horas</th>
 					  <th>Puesto 2</th>
 					  <th>Horas</th>
-					  <th>Fecha y Hora</th>
+					  <th>Fecha</th>
+					  <th></th>
+					  <th></th>
 				  </tr>
 			  </thead>
 			  <tbody>');
@@ -465,15 +467,23 @@ $do = mysqli_query($link, $sql);
 				$result = mysqli_fetch_assoc($p1);
 				$puesto2 = $result["nombre"];
 				}
+				if($row["horas2"] == 0)
+				{
+					$horas2 = "-----";
+				}
+				if($row["horas1"] == 0)
+				{
+					$horas1 = "-----";
+				}
 				$fecha = $row["fecha"];
 				echo('<tr>
 				<td>'.$datos_operador['nombre'].'</td>
 				<td>'.$ausente.'</td>
 				<td>'.$row['causa'].'</td>
 				<td>'.$puesto1.'</td>
-				<td>'.$row["horas1"].'</td>
+				<td>'.$horas1.'</td>
 				<td>'.$puesto2.'</td>
-				<td>'.$row["horas2"].'</td>
+				<td>'.$horas2.'</td>
 				<td>'.$fecha.'</td>
 				<td><form method="POST"><input type="hidden" name="borrar_ficha" value="'.$row["id"].'"><button><i class="fas fa-trash"></i></button></form></td>
 				<td><button><i class="fas fa-pen"></i></button></td>
@@ -590,6 +600,42 @@ $do = mysqli_query($link, $sql);
             <button type="submit" class="btn btn-primary ms-auto">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
               Crear nueva irregularidad
+            </button>
+          </div>
+		  </form>
+        </div>
+      </div>
+    </div>
+	<div class="modal modal-blur fade" id="hacer-cambio" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+		<form action="" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title">Reportar cambio</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="mb-3">
+                  <label class="form-label">Cambio en la planificación</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="text" name="input_cambio" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+              Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary ms-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              Reportar Cambio
             </button>
           </div>
 		  </form>
@@ -740,7 +786,7 @@ $(document).ready( function () {
       			curve: "smooth",
       		},
       		series: [{
-      			name: "Profits",
+      			name: "Reportes",
       			data: [<?php
             $fecha_ahora = date('Y-m-d', time());
             
@@ -841,7 +887,7 @@ $(document).ready( function () {
       			curve: "smooth",
       		},
       		series: [{
-      			name: "Profits",
+      			name: "Auditorias",
       			data: [<?php
             $fecha_ahora = date('Y-m-d', time());
             
@@ -942,7 +988,7 @@ $(document).ready( function () {
       			curve: "smooth",
       		},
       		series: [{
-      			name: "Profits",
+      			name: "Ausencias",
       			data: [<?php
             $fecha_ahora = date('Y-m-d', time());
             
