@@ -326,11 +326,22 @@ Informe del <?php echo $info_turno["tipo"]?> generado el dia <?php echo $fecha_a
 									  </tr>
 								  </thead>
 								  <tbody>
-									  <tr>
-										  <td>Operario de ejemplo</td>
-										  <td>Flejador</td>
-										  <td>NO ha querido acatar ninguna orden</td>
-									  </tr>
+								  <?php
+									 $sql="SELECT * FROM reportes WHERE turno = '$turno'";
+									 $do = mysqli_query($link, $sql);
+									 while($row = mysqli_fetch_assoc($do))
+									 {
+										 $puesto = $row["puesto"];
+										 $sql = "SELECT * FROM puestos WHERE id = '$puesto'";
+										 $do2 = mysqli_query($link, $sql);
+										 $puesto = mysqli_fetch_assoc($do2);
+										 echo('<tr>
+										 <td>'.$row["operario"].'</td>
+										 <td>'.$puesto["nombre"].'</td>
+										 <td>'.$row["reporte"].'</td>
+									 </tr>');
+									 } 
+									  ?>
 								  </tbody>
 							  </table>
                             </div>
