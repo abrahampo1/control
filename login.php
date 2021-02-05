@@ -12,6 +12,8 @@ include('database.php');
 $sql = "SELECT * FROM usuarios WHERE mail = '$nombre'";
 $do = mysqli_query($link, $sql);
 $result = mysqli_fetch_assoc($do);
+error_reporting(0);
+ini_set('display_errors', 0);
 if(password_verify($pass, $result["clave"]))
 {
   session_start();
