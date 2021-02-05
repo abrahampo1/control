@@ -45,10 +45,24 @@ if(isset($_GET["comenzar"]) && isset($_POST["tipo_turno"]))
 {
 $tipo_turno = $_POST["tipo_turno"];
 $unix = time();
-  $sql = "INSERT INTO `turnos` (`id`, `encargado`, `unix`, `estado`, `tipo`) VALUES (NULL, '$iduser', '$unix', 'abierto', '$tipo_turno')";
-  mysqli_query($link, $sql);
-  $_SESSION["turno"] = mysqli_insert_id($link);
-  header("location: index.php");
+$sql = "SELECT * FROM turnos WHERE encargado = '$iduser' and estado = 'abierto'";
+$do = mysqli_query($link, $sql);
+$turno_libre = true;
+while($r = mysqli_fetch_assoc($do))
+{
+	$turno_libre = false;
+}
+if($turno_libre=true)
+{
+	$sql = "INSERT INTO `turnos` (`id`, `encargado`, `unix`, `estado`, `tipo`) VALUES (NULL, '$iduser', '$unix', 'abierto', '$tipo_turno')";
+	mysqli_query($link, $sql);
+	$_SESSION["turno"] = mysqli_insert_id($link);
+	header("location: index.php");
+}else
+{
+	header("location: index.php?err=6");
+}
+  
 }
 if(isset($_GET["reanudar"]))
 {
