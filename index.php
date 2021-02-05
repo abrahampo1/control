@@ -11,6 +11,9 @@ $reportes_totales = 0;
 $auditorias_totales = 0;
 $ausencias_totales = 0;
 $iduser = $_SESSION["user_id"];
+$sql = "SELECT * FROM usuarios WHERE id = $iduser";
+$do = mysqli_query($link, $sql);
+$datos_usuario = mysqli_fetch_assoc($do);
 for($i=1;$i<=1;$i++)
 {
 $resta = $i - $dias;
@@ -284,6 +287,14 @@ if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
 				<?php
 				if(isset($_SESSION["turno"]))
 				{
+					if($datos_usuario["tipo"] == "admin")
+					{
+						echo('<span class="d-none d-sm-inline">
+						<a href="update.php" class="btn btn-white">
+						 Actualizar via Github
+						</a>
+					  </span>');
+					}
 					echo('
 					<span class="d-none d-sm-inline">
 					  <a href="#" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#hacer-cambio">
