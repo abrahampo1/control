@@ -346,15 +346,26 @@ Informe del <?php echo $info_turno["tipo"]?> generado el dia <?php echo $fecha_a
 									  <tr>
 										  <th>Nombre</th>
 										  <th>Puesto</th>
-										  <th>Reporte</th>
+										  <th>Causa</th>
 									  </tr>
 								  </thead>
 								  <tbody>
-									  <tr>
-										  <td>Operario de ejemplo</td>
-										  <td>Flejador</td>
-										  <td>Se ha cortado en el brazo</td>
-									  </tr>
+									  <?php
+									 $sql="SELECT * FROM incidencias WHERE turno = '$turno'";
+									 $do = mysqli_query($link, $sql);
+									 while($row = mysqli_fetch_assoc($do))
+									 {
+										 $puesto = $row["puesto"];
+										 $sql = "SELECT * FROM puestos WHERE id = '$puesto'";
+										 $do2 = mysqli_query($link, $sql);
+										 $puesto = mysqli_fetch_assoc($do2);
+										 echo('<tr>
+										 <td>'.$row["operario"].'</td>
+										 <td>'.$puesto["nombre"].'</td>
+										 <td>'.$row["incidencia"].'</td>
+									 </tr>');
+									 } 
+									  ?>
 								  </tbody>
 							  </table>
                             </div>
@@ -372,16 +383,6 @@ Informe del <?php echo $info_turno["tipo"]?> generado el dia <?php echo $fecha_a
                           </div>
 						</div>
 						<br>
-						<div class="col-12">
-                          <div class="card">
-                            <div class="card-header">
-                              <h3 class="card-title">Comentarios generales, avisos y otros asuntos</h3>
-                            </div>
-                            <div class="card-body">
-                              <p>El dia se ha desenvuelto de una manera optima</p>
-                            </div>
-                          </div>
-                        </div>
           </div>
         </div>
         

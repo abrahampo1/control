@@ -203,6 +203,29 @@ if(isset($_POST["input_cambio"]))
 	$sql = "INSERT INTO `cambios` (`id`, `fecha`, `turno`, `cambio`) VALUES (NULL, '$fecha_ahora', '$turno_id', '$cambio')";
 	mysqli_query($link, $sql);
 }
+
+if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
+{
+	$operario = $_POST["operario_inc"];
+	$descripcion = $_POST["causa_inc"];
+	$puesto = $_POST["puesto_inc"];
+	$fecha = date("Y-M-d", time());
+	$hora = date("G:i", time());
+	$turno_id = $_SESSION["turno"];
+	$sql = "SELECT * FROM personal WHERE id = '$operario'";
+	$do = mysqli_query($link, $sql);
+	$info_operario = mysqli_fetch_assoc($do);
+	$nombre_operario = $info_operario["nombre"];
+	$sql = "INSERT INTO `incidencias` (`id`, `fecha`, `turno`, `num_operario`, `operario`, `puesto`, `incidencia`, `hora`) VALUES (NULL, '$fecha', '$turno_id', '$operario', '$nombre_operario', '$puesto', '$descripcion', '$hora')";
+	if($do = mysqli_query($link,$sql))
+	{
+
+	}else
+	{
+		echo mysqli_error($link);
+		exit;
+	}
+}
 ?>
 <!doctype html>
 <html lang="es">
@@ -246,16 +269,16 @@ if(isset($_POST["input_cambio"]))
 					  <a href="#" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#hacer-cambio">
 					   Hacer un cambio
 					  </a>
-					</span>');
-				}
-				?>
-                  <a href="#" class="btn btn-danger d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+					</span><a href="#" class="btn btn-danger d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                     Reportar una irregularidad
                   </a>
                   <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                  </a>
+                  </a>');
+				}
+				?>
+                  
                 </div>
               </div>
             </div>
@@ -530,7 +553,7 @@ $do = mysqli_query($link, $sql);
     <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-		<form action="">
+		<form action="" method="POST">
           <div class="modal-header">
             <h5 class="modal-title">Reportar nueva irregularidad</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -554,7 +577,7 @@ $do = mysqli_query($link, $sql);
             <div class="form-selectgroup-boxes row mb-3">
               <div class="col-lg-6">
                 <label class="form-selectgroup-item">
-                  <input type="radio" name="report-type" value="1" class="form-selectgroup-input" checked>
+                  <input type="radio" name="accidente" value="1" class="form-selectgroup-input" checked>
                   <span class="form-selectgroup-label d-flex align-items-center p-3">
                     <span class="me-3">
                       <span class="form-selectgroup-check"></span>
@@ -568,7 +591,7 @@ $do = mysqli_query($link, $sql);
               </div>
               <div class="col-lg-6">
                 <label class="form-selectgroup-item">
-                  <input type="radio" name="report-type" value="1" class="form-selectgroup-input">
+                  <input type="radio" name="accidente" value="2" class="form-selectgroup-input">
                   <span class="form-selectgroup-label d-flex align-items-center p-3">
                     <span class="me-3">
                       <span class="form-selectgroup-check"></span>
@@ -589,14 +612,14 @@ $do = mysqli_query($link, $sql);
                   <div class="input-group input-group-flat">
                     <span class="input-group-text">
                     </span>
-                    <input type="text" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
+                    <input type="text" required class="form-control ps-0" name="causa_inc"  value="" placeholder="Escribe aqui..." autocomplete="off">
                   </div>
                 </div>
               </div>
               <div class="col-lg-4">
                 <div class="mb-3">
                   <label class="form-label">Puesto</label>
-                  <select class="form-select" required>
+                  <select class="form-select" name="puesto_inc" required>
 					<?php
 					$sql = "SELECT * FROM puestos";
 					$do = mysqli_query($link, $sql);
