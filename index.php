@@ -765,27 +765,29 @@ $do = mysqli_query($link, $sql);
 			  ?>
 			  </select>
 			</div>
+			<div class="col-md-6 col-lg-4">
 			<div class="form-group">
-                        <div class="form-label">Checkboxes</div>
+                        <div class="form-label">Seleccione las siguientes casillas</div>
                         <div class="custom-controls-stacked">
                           <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1" checked>
+                            <input type="checkbox" class="custom-control-input" name="check1" value="option1" checked>
                             <span class="custom-control-label">Seguridad</span>
-                          </label>
+                          </label><br>
                           <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
+                            <input type="checkbox" class="custom-control-input" name="check2" value="option2">
                             <span class="custom-control-label">Medioambiente</span>
-						  </label>
+						  </label><br>
 						  <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
+                            <input type="checkbox" class="custom-control-input" name="check3" value="option2">
                             <span class="custom-control-label">Calidad</span>
-						  </label>
+						  </label><br>
 						  <label class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
+                            <input type="checkbox" class="custom-control-input" name="check4" value="option2">
                             <span class="custom-control-label">Cumplimiento EPIS</span>
                           </label>
                         </div>
-                      </div>
+					  </div>
+			</div>
             <div class="row">
               <div class="col-lg-12">
                 <div class="mb-3">
