@@ -21,6 +21,9 @@ if(password_verify($pass, $result["clave"]))
   $sql = "UPDATE `usuarios` SET `last_login` = '$hora' WHERE `usuarios`.`id` = $idusuario";
   mysqli_query($link, $sql);
   header("location: index.php");
+}else
+{
+  $error = "Credenciales incorrectas";
 }
 }
 ?>
@@ -49,6 +52,21 @@ if(password_verify($pass, $result["clave"]))
   </head>
   <body class="antialiased border-top-wide border-primary d-flex flex-column">
     <div class="flex-fill d-flex flex-column justify-content-center py-4">
+    <?php
+			 if(isset($error))
+			 {
+				 echo('<div class="col-12">
+				 <div class="card" style="color:red">
+				   <div class="card-header">
+					 <h3 class="card-title">Error</h3>
+				   </div>
+				   <div class="card-body">
+					 <p>'.$error.'</p>
+				   </div>
+				 </div>
+			   </div>');
+			 } 
+			  ?>
       <div class="container-tight py-6">
         <div class="text-center mb-1">
           <a href="."><img src="./dist/img/logos/ilunion.png" height="160" alt=""></a>

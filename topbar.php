@@ -19,7 +19,7 @@ if($do = mysqli_query($link, $sql))
           </button>
           <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href=".">
-              <img src="dist/img/logos/ilunion.png" width="110" height="80" alt="Tabler" class="">
+              <img src="dist/img/logos/logo.png" width="110" height="80" alt="Tabler" class="">
             </a>
             <?php
             if(isset($_SESSION["turno"]))

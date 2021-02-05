@@ -79,7 +79,7 @@ Informe del <?php echo $info_turno["tipo"]?> generado el dia <?php echo $fecha_a
               </div>
               <!-- Page title actions -->
               <div class="col-auto ms-auto">
-			  <img src="dist/img/logos/ilunion.png" width="180" height="140" alt="Tabler" class="">
+			  <img src="dist/img/logos/logo.png" width="180" height="140" alt="Tabler" class="">
                 
               </div>
             </div>
