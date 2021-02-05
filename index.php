@@ -742,7 +742,7 @@ $do = mysqli_query($link, $sql);
         </div>
       </div>
 	</div>
-	<div class="modal modal-blur fade" id="hacer-cambio" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal modal-blur fade" id="auditar" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 		<form action="" method="post">
