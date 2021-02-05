@@ -752,7 +752,7 @@ $do = mysqli_query($link, $sql);
           </div>
           <div class="modal-body">
 		  <div class="mb-3">
-              <label class="form-label">Operario Afectado</label>
+              <label class="form-label">Operario Auditado</label>
               <select name="operario_inc" required id="" class="form-select">
 			  <?php
 			  $sql = "SELECT * FROM personal";
@@ -764,7 +764,28 @@ $do = mysqli_query($link, $sql);
 			 } }
 			  ?>
 			  </select>
-            </div>
+			</div>
+			<div class="form-group">
+                        <div class="form-label">Checkboxes</div>
+                        <div class="custom-controls-stacked">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1" checked>
+                            <span class="custom-control-label">Seguridad</span>
+                          </label>
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
+                            <span class="custom-control-label">Medioambiente</span>
+						  </label>
+						  <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
+                            <span class="custom-control-label">Calidad</span>
+						  </label>
+						  <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="example-checkbox2" value="option2">
+                            <span class="custom-control-label">Cumplimiento EPIS</span>
+                          </label>
+                        </div>
+                      </div>
             <div class="row">
               <div class="col-lg-12">
                 <div class="mb-3">
