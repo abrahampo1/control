@@ -788,16 +788,24 @@ $do = mysqli_query($link, $sql);
                         </div>
 					  </div>
 			</div>
+			<hr>
             <div class="row">
               <div class="col-lg-12">
-                <div class="mb-3">
-                  <label class="form-label">Cambio en la planificación</label>
+			  <div class="mb-3">
+                  <label class="form-label">Propuestas</label>
                   <div class="input-group input-group-flat">
                     <span class="input-group-text">
                     </span>
-                    <input type="text" name="input_cambio" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
+                    <input type="text" name="audi_propuesta" class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
                   </div>
-                </div>
+                </div><div class="mb-3">
+                  <label class="form-label">Acciones</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="text" name="audi_accion" class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+				</div>
               </div>
             </div>
           </div>
