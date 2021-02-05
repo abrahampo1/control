@@ -57,7 +57,7 @@ if(password_verify($pass, $result["clave"]))
     <?php
 			 if(isset($error))
 			 {
-				 echo('<div class="col-12">
+				 echo('
 				 <div class="card" style="color:red">
 				   <div class="card-header">
 					 <h3 class="card-title">Error</h3>
@@ -65,8 +65,7 @@ if(password_verify($pass, $result["clave"]))
 				   <div class="card-body">
 					 <p>'.$error.'</p>
 				   </div>
-				 </div>
-			   </div>');
+				 </div>');
 			 } 
 			  ?>
       <div class="container-tight py-6">
