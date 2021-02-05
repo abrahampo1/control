@@ -4,6 +4,7 @@ ini_set( 'display_errors', true );
 include('database.php');
 require('protect.php');
 include('errores.php');
+include('nice.php');
 $fecha_ahora = date('Y-m-d', time());
 $dias = 7;
 $incidencias_totales = 0;
@@ -330,6 +331,20 @@ if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
 				 <div class="card" style="color:red">
 				   <div class="card-header">
 					 <h3 class="card-title">Error</h3>
+				   </div>
+				   <div class="card-body">
+					 <p>'.$mensaje.'</p>
+				   </div>
+				 </div>
+			   </div>');
+			 } 
+			 if(isset($_GET["nice"]))
+			 {
+				 $mensaje = nice($_GET["nice"]);
+				 echo('<div class="col-12">
+				 <div class="card" style="color:green">
+				   <div class="card-header">
+					 <h3 class="card-title">OK</h3>
 				   </div>
 				   <div class="card-body">
 					 <p>'.$mensaje.'</p>
