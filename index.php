@@ -14,27 +14,33 @@ $iduser = $_SESSION["user_id"];
 for($i=1;$i<=1;$i++)
 {
 $resta = $i - $dias;
+$turno_numero = 0;
 $fecha_variable = date("Y-m-d", time());
+if(isset($_SESSION["turno"]))
+{
+	$turno_numero = $_SESSION["turno"];
+}
+
 if($resta == 0)
 {
 	$fecha_variable = $fecha_ahora;
 }
-$sql = "SELECT * FROM incidencias WHERE fecha = '$fecha_variable'";
+$sql = "SELECT * FROM incidencias WHERE turno = '$turno_numero'";
 if($fo = mysqli_query($link, $sql))
 {
 	$incidencias_totales += $fo->num_rows;
 }
-$sql = "SELECT * FROM reportes WHERE fecha = '$fecha_variable'";
+$sql = "SELECT * FROM reportes WHERE turno = '$turno_numero'";
 if($fo = mysqli_query($link, $sql))
 {
 	$reportes_totales += $fo->num_rows;
 }
-$sql = "SELECT * FROM auditorias WHERE fecha = '$fecha_variable'";
+$sql = "SELECT * FROM auditorias WHERE turno = '$turno_numero'";
 if($fo = mysqli_query($link, $sql))
 {
 	$auditorias_totales += $fo->num_rows;
 }
-$sql = "SELECT * FROM ausencias_rot WHERE fecha = '$fecha_variable'  AND ausente = 'true'";
+$sql = "SELECT * FROM ausencias_rot WHERE turno = '$turno_numero'  AND ausente = 'true'";
 if($fo = mysqli_query($link, $sql))
 {
 	$ausencias_totales += $fo->num_rows;
