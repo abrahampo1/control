@@ -239,7 +239,14 @@ if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
 	$do = mysqli_query($link, $sql);
 	$info_operario = mysqli_fetch_assoc($do);
 	$nombre_operario = $info_operario["nombre"];
-	$sql = "INSERT INTO `incidencias` (`id`, `fecha`, `turno`, `num_operario`, `operario`, `puesto`, `incidencia`, `hora`) VALUES (NULL, '$fecha', '$turno_id', '$operario', '$nombre_operario', '$puesto', '$descripcion', '$hora')";
+	if($_POST["accidente"] == 1)
+	{
+		$sql = "INSERT INTO `incidencias` (`id`, `fecha`, `turno`, `num_operario`, `operario`, `puesto`, `incidencia`, `hora`) VALUES (NULL, '$fecha', '$turno_id', '$operario', '$nombre_operario', '$puesto', '$descripcion', '$hora')";
+	}else if($_POST["accidente"]==2)
+	{
+		$sql = "INSERT INTO `reportes` (`id`, `fecha`, `turno`, `num_operario`, `operario`, `puesto`, `reporte`, `hora`) VALUES (NULL, '$fecha', '$turno_id', '$operario', '$nombre_operario', '$puesto', '$descripcion', '$hora')";
+	}
+	
 	if($do = mysqli_query($link,$sql))
 	{
 
