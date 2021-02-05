@@ -232,7 +232,7 @@ if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
 	$operario = $_POST["operario_inc"];
 	$descripcion = $_POST["causa_inc"];
 	$puesto = $_POST["puesto_inc"];
-	$fecha = date("Y-M-d", time());
+	$fecha = date("Y-m-d", time());
 	$hora = date("G:i", time());
 	$turno_id = $_SESSION["turno"];
 	$sql = "SELECT * FROM personal WHERE id = '$operario'";
