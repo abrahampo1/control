@@ -236,7 +236,13 @@ if(isset($_POST["input_cambio"]))
 	$turno_id = $_SESSION["turno"];
 	$cambio = $_POST["input_cambio"];
 	$sql = "INSERT INTO `cambios` (`id`, `fecha`, `turno`, `cambio`) VALUES (NULL, '$fecha_ahora', '$turno_id', '$cambio')";
-	mysqli_query($link, $sql);
+	if(mysqli_query($link, $sql))
+	{
+		header("location: index.php?nice=5");
+	}else
+	{
+		header("location: index.php?err=7");
+	}
 }
 
 if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
@@ -402,6 +408,12 @@ if(isset($_POST["operario_audi"]))
 				 <div class="card" style="color:red">
 				   <div class="card-header">
 					 <h3 class="card-title">Error</h3>
+					 <a href="index.php" type="button" class="btn-close" style="position: absolute;
+				   right: 5px;
+				   top: 5px;
+				   width: 32px;
+				   height: 32px;
+				   opacity: 0.3;" aria-label="Close"></a>
 				   </div>
 				   <div class="card-body">
 					 <p>'.$mensaje.'</p>
@@ -417,6 +429,12 @@ if(isset($_POST["operario_audi"]))
 				 echo('<div class="col-12">
 				 <div class="card" style="color:green">
 				   <div class="card-header">
+				   <a href="index.php" type="button" class="btn-close" style="position: absolute;
+				   right: 5px;
+				   top: 5px;
+				   width: 32px;
+				   height: 32px;
+				   opacity: 0.3;" aria-label="Close"></a>
 					 <h3 class="card-title">OK</h3>
 				   </div>
 				   <div class="card-body">
