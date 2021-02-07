@@ -58,13 +58,14 @@ if(password_verify($pass, $result["clave"]))
     if(isset($_GET["nice"]))
     {
       include('nice.php');
+      $mensaje = nice($_GET["nice"]);
       echo('
       <div class="card" style="color:green">
         <div class="card-header">
         <h3 class="card-title">OK</h3>
         </div>
         <div class="card-body">
-        <p>'.$nice[$_GET["nice"]].'</p>
+        <p>'.$mensaje.'</p>
         </div>
       </div>');
     } 
@@ -83,9 +84,9 @@ if(password_verify($pass, $result["clave"]))
 			  ?>
       <div class="container-tight py-6">
         <div class="text-center mb-1">
-          <a href="."><img src="./dist/img/logos/ilunion.png" height="160" alt=""></a>
+          <a href="."><img src="./dist/img/logos/logo.png" height="160" alt=""></a>
         </div>
-        <form class="card card-md" action="" method="post" autocomplete="off">
+        <form class="card card-md" action="login.php" method="post" autocomplete="off">
           <div class="card-body">
             <h2 class="card-title text-center mb-4">Inicia sesion en tu cuenta</h2>
             <div class="mb-3">

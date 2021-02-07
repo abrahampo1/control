@@ -10,7 +10,7 @@ if($do = mysqli_query($link, $sql))
 {
   $info_usuario = mysqli_fetch_assoc($do);
 }
-if(isset($_POST["cambiar_clave"]))
+if(isset($_POST["clave_vieja"]))
 {
 $clave_vieja = $_POST["clave_vieja"];
 $clave_nueva = $_POST["clave_nueva"];
@@ -263,7 +263,6 @@ if($do = mysqli_query($link, $sql))
             <div class="row">
               <div class="col-lg-12">
                 <div class="mb-3">
-                <input type="hidden" value="cambiar_clave">
                   <label class="form-label">Contraseña Actual</label>
                   <div class="input-group input-group-flat">
                     <span class="input-group-text">
@@ -272,6 +271,8 @@ if($do = mysqli_query($link, $sql))
                   </div>
                 </div>
 				<div class="mb-3">
+        
+        <input type="hidden" name="cambiar_clave" value="1">
                   <label class="form-label">Contraseña Nueva</label>
                   <div class="input-group input-group-flat">
                     <span class="input-group-text">
