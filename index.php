@@ -15,6 +15,18 @@ $iduser = $_SESSION["user_id"];
 $sql = "SELECT * FROM usuarios WHERE id = $iduser";
 $do = mysqli_query($link, $sql);
 $datos_usuario = mysqli_fetch_assoc($do);
+if(isset($_GET["ecambio"]))
+{
+	$cambio_a_eliminar = $_GET["ecambio"];
+	$sql = "DELETE FROM `cambios` WHERE `cambios`.`id` = $cambio_a_eliminar";
+	if($do = mysqli_query($link, $sql))
+	{
+		header("location: index.php?nice=4");
+	}else
+	{
+		header("location: index.php?err=7");
+	}
+}
 for($i=1;$i<=1;$i++)
 {
 $resta = $i - $dias;
