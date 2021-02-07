@@ -3,15 +3,24 @@ include('database.php');
 require('protect.php');
 if(!isset($_SESSION["turno"]))
 {
+	if(isset($_GET["id"]))
+{
+	$turno = $_GET["id"];
+}else
+{
 	header('location: index.php');
 }
+}else
+{
+	$turno = $_SESSION["turno"];
+}
+
             $fecha_ahora = date('Y-m-d', time());
             $dias = 1;
             $incidencias_totales = 0;
             $reportes_totales = 0;
             $auditorias_totales = 0;
 			$ausencias_totales = 0;
-			$turno = $_SESSION["turno"];
 			$sql = "SELECT * FROM turnos WHERE id = $turno";
 			$do = mysqli_query($link, $sql);
 			$info_turno = mysqli_fetch_assoc($do);
@@ -67,7 +76,7 @@ if(!isset($_SESSION["turno"]))
             <div class="row align-items-center">
               <div class="col">
                 <!-- Page pre-title -->
-				<div class="d-print-none col-auto btn-list"><div class=""><button class="btn btn-primary d-none d-sm-inline-block" onclick="goBack()">Retroceder</button></div><div class=""><button class="btn btn-primary d-none d-sm-inline-block" onclick="window.print();return false;">Imprimir</button></div></div> <br>
+				<div class="d-print-none col-auto btn-list"><div class=""><button class="btn btn-primary d-none d-sm-inline-block" onclick="goBack()">Retroceder</button></div><div class=""><button class="btn btn-primary d-none d-sm-inline-block" onclick="window.print();return false;">Imprimir</button></div><div class=""><a href="mail.php" class="btn btn-primary d-none d-sm-inline-block">Enviar Mail</a></div></div> <br>
 				 <div class="page-pretitle">
 				 
 				 ILUNION Servicios Industriales<br>
@@ -386,10 +395,61 @@ Informe del <?php echo $info_turno["tipo"]?> generado el dia <?php echo $fecha_a
 						<div class="col-12">
                           <div class="card">
                             <div class="card-header">
-                              <h3 class="card-title">Riesgos 5s e incumplimiento de epis</h3>
+                              <h3 class="card-title">Auditorias Realizadas</h3>
                             </div>
                             <div class="card-body">
-                              <p>No ha habido ningun incumplimiento</p>
+							<table border="0" width="100%" style="margin: 0px;">
+								  <thead>
+									  <tr>
+										  <th>Nombre</th>
+										  <th>Seguridad</th>
+										  <th>Medioambiente</th>
+										  <th>Calidad</th>
+										  <th>Cumplimiento de EPIS</th>
+										  <th>Propuestas</th>
+										  <th>Acciones</th>
+									  </tr>
+								  </thead>
+								  <tbody>
+								  <?php
+									 $sql="SELECT * FROM auditorias WHERE turno = '$turno'";
+									 $do = mysqli_query($link, $sql);
+									 while($row = mysqli_fetch_assoc($do))
+									 {
+										 $num_operario = $row["num_operario"];
+										 $sql = "SELECT * FROM personal WHERE id = '$num_operario'";
+										 $do2 = mysqli_query($link, $sql);
+										 $info = mysqli_fetch_assoc($do2);
+										 $nombre_operario = $info["nombre"];
+										 $seguridad = "NO";
+										 $medioambiente = "NO";
+										 $calidad = "NO";
+										 $epis = "NO";
+										 if($row["seguridad"] == 1){
+											 $seguridad = "SI";
+										 }
+										 if($row["medioambiente"] == 1){
+											$medioambiente = "SI";
+										}
+										if($row["calidad"] == 1){
+											$calidad = "SI";
+										}
+										if($row["epis"] == 1){
+											$epis = "SI";
+										}
+										 echo('<tr>
+										 <td>'.$nombre_operario.'</td>
+										 <td>'.$seguridad.'</td>
+										 <td>'.$medioambiente.'</td>
+										 <td>'.$calidad.'</td>
+										 <td>'.$epis.'</td>
+										 <td>'.$row["propuestas"].'</td>
+										 <td>'.$row["acciones"].'</td>
+									 </tr>');
+									 } 
+									  ?>
+								  </tbody>
+							  </table>
                             </div>
                           </div>
 						</div>

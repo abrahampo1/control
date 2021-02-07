@@ -6,8 +6,10 @@ function nice(int $i){
         'Se ha creado la auditoria correctamente.',
         'Se ha guardado la irregularidad correctamente.',
         'El operario ha sido fichado correctamente.',
-        'Se ha eliminado el cambio correctametne.',
-        'Se ha añadido el cambio correctamente.'
+        'Se ha eliminado correctametne.',
+        'Se ha añadido el cambio correctamente.',
+        'Email enviado correctamente.',
+        'Se ha cambiado la contraseña correctamente, por favor, vuelva a iniciar sesión.'
     );
     return $nice[$i];
 }

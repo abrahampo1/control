@@ -27,6 +27,42 @@ if(isset($_GET["ecambio"]))
 		header("location: index.php?err=7");
 	}
 }
+if(isset($_GET["eauditoria"]))
+{
+	$cambio_a_eliminar = $_GET["eauditoria"];
+	$sql = "DELETE FROM `auditorias` WHERE `auditorias`.`id` = $cambio_a_eliminar";
+	if($do = mysqli_query($link, $sql))
+	{
+		header("location: index.php?nice=4");
+	}else
+	{
+		header("location: index.php?err=7");
+	}
+}
+if(isset($_GET["ereporte"]))
+{
+	$cambio_a_eliminar = $_GET["ereporte"];
+	$sql = "DELETE FROM `reportes` WHERE `reportes`.`id` = $cambio_a_eliminar";
+	if($do = mysqli_query($link, $sql))
+	{
+		header("location: index.php?nice=4");
+	}else
+	{
+		header("location: index.php?err=7");
+	}
+}
+if(isset($_GET["eincidencia"]))
+{
+	$cambio_a_eliminar = $_GET["eincidencia"];
+	$sql = "DELETE FROM `incidencias` WHERE `incidencias`.`id` = $cambio_a_eliminar";
+	if($do = mysqli_query($link, $sql))
+	{
+		header("location: index.php?nice=4");
+	}else
+	{
+		header("location: index.php?err=7");
+	}
+}
 for($i=1;$i<=1;$i++)
 {
 $resta = $i - $dias;
@@ -228,7 +264,7 @@ if(isset($_POST["borrar_ficha"]))
 	$operario_borrar = $_POST["borrar_ficha"];
 	$sql = "DELETE FROM `ausencias_rot` WHERE `ausencias_rot`.`id` = $operario_borrar;";
 	mysqli_query($link, $sql);
-	header("location: index.php");
+	header("location: index.php?nice=4");
 }
 
 if(isset($_POST["input_cambio"]))
@@ -777,7 +813,44 @@ $do = mysqli_query($link, $sql);
                   </select>
                 </div>
               </div>
-            </div>
+            </div><?php
+		  if(isset($_SESSION["turno"]))
+		  {
+		  $turno = $_SESSION["turno"];
+		  $sql = "SELECT * FROM reportes WHERE turno = $turno";
+		  $do = mysqli_query($link ,$sql);
+		  $sql = "SELECT * FROM incidencias WHERE turno = $turno";
+		  $do2 = mysqli_query($link ,$sql);
+		  if($do->num_rows > 0 || $do2->num_rows > 0)
+		  {
+			echo('<hr>
+			<table>
+			<thead>
+				<tr>
+				  <th>Irregularidades actuales</th>
+				</tr>
+			</thead>
+				<tbody>
+				
+				');
+				$sql = "SELECT * FROM reportes WHERE turno = $turno";
+				$do = mysqli_query($link, $sql);
+				while($row = mysqli_fetch_assoc($do))
+				{
+					echo('<tr><td><a href="index.php?ereporte='.$row["id"].'">Eliminar</a></td><td>'.$row["operario"].'</td><td>Reporte: '.$row["reporte"].'</td></tr><tr><td></td><td></td></tr>');
+				}
+				$sql = "SELECT * FROM incidencias WHERE turno = $turno";
+				$do = mysqli_query($link, $sql);
+				while($row = mysqli_fetch_assoc($do))
+				{
+					echo('<tr><td><a href="index.php?eincidencia='.$row["id"].'">Eliminar</a></td><td>'.$row["operario"].'</td><td>Incidencia: '.$row["incidencia"].'</td></tr><tr><td></td><td></td></tr>');
+				}
+		   echo('
+		   </tbody>
+		</table>'); 
+		  }
+		}
+		  ?>
           </div>
           
           <div class="modal-footer">
@@ -926,7 +999,42 @@ $do = mysqli_query($link, $sql);
                   </div>
 				</div>
               </div>
-            </div>
+            </div><?php
+		  if(isset($_SESSION["turno"]))
+		  {
+		  $turno = $_SESSION["turno"];
+		  $sql = "SELECT * FROM auditorias WHERE turno = $turno";
+		  $do = mysqli_query($link ,$sql);
+		  if($do->num_rows > 0 || $do2->num_rows > 0)
+		  {
+			echo('<hr>
+			<table>
+			<thead>
+				<tr>
+				  <th>Auditorias actuales</th>
+				</tr>
+			</thead>
+				<tbody>
+				
+				');
+				$sql = "SELECT * FROM auditorias WHERE turno = $turno";
+				$do = mysqli_query($link, $sql);
+				
+				while($row = mysqli_fetch_assoc($do))
+				{
+					$num_operario = $row["num_operario"];
+					$sql = "SELECT * FROM personal WHERE id = '$num_operario'";
+				$do2 = mysqli_query($link, $sql);
+				$info = mysqli_fetch_assoc($do2);
+				$nombre_operario = $info["nombre"];
+					echo('<tr><td><a href="index.php?eauditoria='.$row["id"].'">Eliminar</a></td><td>'.$nombre_operario.'</td><td> '.$row["fecha"].' '.$row["hora"].'</td></tr><tr><td></td><td></td></tr>');
+				}
+		   echo('
+		   </tbody>
+		</table>'); 
+		  }
+		}
+		  ?>
           </div>
           
           <div class="modal-footer">
@@ -961,6 +1069,7 @@ $(document).ready( function () {
 } );
 </script>
     <script>
+
       // @formatter:off
       document.addEventListener("DOMContentLoaded", function () {
       	window.ApexCharts && (new ApexCharts(document.getElementById('chart-incidencias-bg'), {

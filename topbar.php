@@ -10,6 +10,29 @@ if($do = mysqli_query($link, $sql))
 {
   $info_usuario = mysqli_fetch_assoc($do);
 }
+if(isset($_POST["cambiar_clave"]))
+{
+$clave_vieja = $_POST["clave_vieja"];
+$clave_nueva = $_POST["clave_nueva"];
+
+$sql = "SELECT * FROM usuarios WHERE id = '$iduser'";
+if($do = mysqli_query($link, $sql))
+{
+  $info_user = mysqli_fetch_assoc($do);
+  if(password_verify($clave_vieja, $info_user["clave"]))
+  {
+    $passhash = password_hash($clave_nueva, PASSWORD_DEFAULT);
+    $sql = "UPDATE `usuarios` SET `clave` = '$passhash' WHERE `usuarios`.`id` = $iduser;";
+    if($do = mysqli_query($link, $sql))
+    {
+      session_start();
+      session_unset();
+      session_destroy();
+      header("location: login.php?nice=7");
+    }
+  }
+}
+}
 
 ?>
 <header class="navbar navbar-expand-md navbar-light d-print-none">
@@ -29,7 +52,8 @@ if($do = mysqli_query($link, $sql))
                 if($do = mysqli_query($link, $sql))
                 {
                   $info_turno = mysqli_fetch_assoc($do);
-                  echo('Turno '.$info_turno["tipo"].'#'.$turno_id.'.');
+                  $currentWeekNumber = date('W');
+                  echo('Turno '.$info_turno["tipo"].'#'.$turno_id.'.  Semana: '.$currentWeekNumber);
                 }
             }
             ?>
@@ -57,7 +81,7 @@ if($do = mysqli_query($link, $sql))
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <a href="#" class="dropdown-item">Cuenta</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">Cambiar Contraseña</a>
+                <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cambiar-clave">Cambiar Contraseña</a>
                 <a href="./logout.php" class="dropdown-item">Cerrar Sesión</a>
               </div>
             </div>
@@ -95,7 +119,7 @@ if($do = mysqli_query($link, $sql))
                     <span class="nav-link-icon d-md-none d-lg-inline-block"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="9" x2="10" y2="9" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="9" y1="17" x2="15" y2="17" /></svg>
                     </span>
                     <span class="nav-link-title">
-                      Exportar PDF
+                      Informe
                     </span>
                   </a>
                 </li><li class="nav-item">
@@ -226,3 +250,75 @@ if($do = mysqli_query($link, $sql))
         </div>
       </div>
     </div>
+
+    <div class="modal modal-blur fade" id="cambiar-clave" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+		<form action="" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title">Cambiar Contraseña</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="mb-3">
+                <input type="hidden" value="cambiar_clave">
+                  <label class="form-label">Contraseña Actual</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="password" name="clave_vieja" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+				<div class="mb-3">
+                  <label class="form-label">Contraseña Nueva</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="password" name="clave_nueva" id="password" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+				<div class="mb-3">
+                  <label class="form-label">Repite Contraseña Nueva</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="password" name="clave_nueva2" id="confirm_password" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+              Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary ms-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              Cambiar Contraseña
+            </button>
+			
+          </div>
+		  
+		  </form>
+		  
+        </div>
+      </div>
+	</div>
+  <script>
+  	var password = document.getElementById("password")
+  , confirm_password = document.getElementById("confirm_password");
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Las contraseñas no coinciden.");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+  </script>

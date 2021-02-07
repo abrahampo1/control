@@ -55,6 +55,19 @@ if(password_verify($pass, $result["clave"]))
   <body class="antialiased border-top-wide border-primary d-flex flex-column">
     <div class="flex-fill d-flex flex-column justify-content-center py-4">
     <?php
+    if(isset($_GET["nice"]))
+    {
+      include('nice.php');
+      echo('
+      <div class="card" style="color:green">
+        <div class="card-header">
+        <h3 class="card-title">OK</h3>
+        </div>
+        <div class="card-body">
+        <p>'.$nice[$_GET["nice"]].'</p>
+        </div>
+      </div>');
+    } 
 			 if(isset($error))
 			 {
 				 echo('
