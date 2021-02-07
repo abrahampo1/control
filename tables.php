@@ -18,7 +18,7 @@ require('protect.php');
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Personal</title>
+    <title>Ilunion - Personal</title>
     <!-- CSS files -->
 
     <link rel="stylesheet" type="text/css" href="./dist/js/jquery.dataTables.css"/>

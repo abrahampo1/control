@@ -24,7 +24,6 @@ if(isset($_SESSION["turno"]))
 {
 	$turno_numero = $_SESSION["turno"];
 }
-
 if($resta == 0)
 {
 	$fecha_variable = $fecha_ahora;
@@ -185,7 +184,7 @@ if($do = mysqli_query($link, $sql))
 	{
 		/* ESTO ES PARA DEBUG<<<< */
 		if($duplicado == false){
-		$sql = "INSERT INTO `ausencias_rot` (`id`, `fecha`, `num_operario`, `ausente`, `causa`, `puesto1`, `puesto2`, `horas1`, `horas2`, `turno`) VALUES (NULL, '$fecha_unix', '$operario_nuevo', '$ausente', '$causa_ausencia', '$puesto1_nuevo', '$puesto2_nuevo', '$horas1_nuevo', '$horas2_nuevo', '$turno_id')";
+		$sql = "INSERT INTO `ausencias_rot` (`id`, `fecha`, `num_operario`, `ausente`, `causa`, `puesto1`, `puesto2`, `horas1`, `horas2`, `turno`, `usuario`) VALUES (NULL, '$fecha_unix', '$operario_nuevo', '$ausente', '$causa_ausencia', '$puesto1_nuevo', '$puesto2_nuevo', '$horas1_nuevo', '$horas2_nuevo', '$turno_id', '$iduser')";
 		if($do = mysqli_query($link, $sql))
 		{
 	
@@ -242,12 +241,11 @@ if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
 	$nombre_operario = $info_operario["nombre"];
 	if($_POST["accidente"] == 1)
 	{
-		$sql = "INSERT INTO `incidencias` (`id`, `fecha`, `turno`, `num_operario`, `operario`, `puesto`, `incidencia`, `hora`) VALUES (NULL, '$fecha', '$turno_id', '$operario', '$nombre_operario', '$puesto', '$descripcion', '$hora')";
+		$sql = "INSERT INTO `incidencias` (`id`, `fecha`, `turno`, `num_operario`, `operario`, `puesto`, `incidencia`, `hora`, `usuario`) VALUES (NULL, '$fecha', '$turno_id', '$operario', '$nombre_operario', '$puesto', '$descripcion', '$hora', '$iduser')";
 	}else if($_POST["accidente"]==2)
 	{
-		$sql = "INSERT INTO `reportes` (`id`, `fecha`, `turno`, `num_operario`, `operario`, `puesto`, `reporte`, `hora`) VALUES (NULL, '$fecha', '$turno_id', '$operario', '$nombre_operario', '$puesto', '$descripcion', '$hora')";
+		$sql = "INSERT INTO `reportes` (`id`, `fecha`, `turno`, `num_operario`, `operario`, `puesto`, `reporte`, `hora`, `usuario`) VALUES (NULL, '$fecha', '$turno_id', '$operario', '$nombre_operario', '$puesto', '$descripcion', '$hora', '$iduser')";
 	}
-	
 	if($do = mysqli_query($link,$sql))
 	{
 
@@ -299,15 +297,19 @@ if(isset($_POST["operario_audi"]))
 	{
 		$fecha = date('Y-m-d', time());
 		$hora = date('H:i', time());
-		$sql = "INSERT INTO `auditorias` (`turno`, `id`, `auditor`, `num_operario`, `seguridad`, `medioambiente`, `calidad`, `propuestas`, `acciones`, `comentarios`, `fecha`, `hora`) VALUES ('$turno', NULL, '$iduser', '$operario_auditar', '$seguridad', '$medioambiente', '$calidad', '$propuesta', '$acciones', NULL, '$fecha', '$hora')";
+		$sql = "INSERT INTO `auditorias` (`turno`, `id`, `auditor`, `num_operario`, `seguridad`, `medioambiente`, `calidad`, `epis`, `propuestas`, `acciones`, `comentarios`, `fecha`, `hora`) VALUES ('$turno', NULL, '$iduser', '$operario_auditar', '$seguridad', '$medioambiente', '$calidad', '$cumplimientoepis', '$propuesta', '$acciones', '', '$fecha', '$hora')";
 		if($does = mysqli_query($link, $sql))
 		{
 			header('location: index.php?nice=1');
+		}else{
+			print(mysqli_error($link));
+			exit;
+			header('location: index.php?err=7');
 		}
 	}
 	else
 	{
-		header('location: index.php?err=7');
+		header('location: index.php?err=6');
 	}
 }
 ?>
@@ -318,7 +320,7 @@ if(isset($_POST["operario_audi"]))
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>CPControl</title>
+    <title>Ilunion - Panel</title>
 	<script src="./dist/js/fontawesome.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" type="text/css" href="./dist/js/jquery.dataTables.css"/>
     <link href="./dist/libs/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
@@ -391,6 +393,8 @@ if(isset($_POST["operario_audi"]))
 				   </div>
 				   <div class="card-body">
 					 <p>'.$mensaje.'</p>
+					 <br>
+					 <h4>Si no logra arreglar este error, comuiniqueselo al creador del programa Abraham Leiro Fernandez (<a href="mailto:abraham@cpsoftware.es">abraham@cpsoftware.es</a>)</h4>
 				   </div>
 				 </div>
 			   </div>');
@@ -455,7 +459,7 @@ if(isset($_POST["operario_audi"]))
                     </div>
                   </div>
                   <div class="d-flex align-items-baseline">
-                    <div class="h1 mb-3 me-2">0</div>
+                    <div class="h1 mb-3 me-2"><?php echo($auditorias_totales); ?></div>
                     <div class="me-auto">
                     </div>
                   </div>
@@ -967,7 +971,7 @@ $(document).ready( function () {
                 {
                   $fecha_variable = $fecha_ahora;
                 }
-                $sql = "SELECT * FROM incidencias WHERE fecha = '$fecha_variable'";
+                $sql = "SELECT * FROM incidencias WHERE fecha = '$fecha_variable' AND usuario = '$iduser'";
                 if($fo = mysqli_query($link, $sql))
                 {
                   if($resta != 0)
@@ -1066,7 +1070,7 @@ $(document).ready( function () {
                 {
                   $fecha_variable = $fecha_ahora;
                 }
-                $sql = "SELECT * FROM reportes WHERE fecha = '$fecha_variable'";
+                $sql = "SELECT * FROM reportes WHERE fecha = '$fecha_variable' AND usuario = '$iduser'";
                 if($fo = mysqli_query($link, $sql))
                 {
                   if($resta != 0)
@@ -1167,7 +1171,7 @@ $(document).ready( function () {
                 {
                   $fecha_variable = $fecha_ahora;
                 }
-                $sql = "SELECT * FROM auditorias WHERE fecha = '$fecha_variable'";
+                $sql = "SELECT * FROM auditorias WHERE fecha = '$fecha_variable' AND auditor = '$iduser'";
                 if($fo = mysqli_query($link, $sql))
                 {
                   if($resta != 0)
@@ -1268,7 +1272,7 @@ $(document).ready( function () {
                 {
                   $fecha_variable = $fecha_ahora;
                 }
-                $sql = "SELECT * FROM ausencias_rot WHERE fecha = '$fecha_variable' AND ausente = 'true'";
+                $sql = "SELECT * FROM ausencias_rot WHERE fecha = '$fecha_variable' AND ausente = 'true' AND usuario = '$iduser'";
                 if($fo = mysqli_query($link, $sql))
                 {
                   if($resta != 0)

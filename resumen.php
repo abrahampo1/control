@@ -50,7 +50,7 @@ if(!isset($_SESSION["turno"]))
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>CPControl</title>
+    <title>Ilunion - Informe</title>
     <!-- CSS files -->
     <link href="./dist/libs/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
     <link href="./dist/css/tabler.min.css" rel="stylesheet"/>
