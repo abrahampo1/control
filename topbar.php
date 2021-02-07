@@ -57,7 +57,7 @@ if($do = mysqli_query($link, $sql))
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <a href="#" class="dropdown-item">Cuenta</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">Ajustes</a>
+                <a href="#" class="dropdown-item">Cambiar Contraseña</a>
                 <a href="./logout.php" class="dropdown-item">Cerrar Sesión</a>
               </div>
             </div>

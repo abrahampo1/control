@@ -257,6 +257,59 @@ if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
 		exit;
 	}
 }
+
+if(isset($_POST["operario_audi"]))
+{
+	$operario_auditar = $_POST["operario_audi"];
+	$seguridad = false;
+	$medioambiente = false;
+	$calidad = false;
+	$cumplimientoepis = false;
+	$propuesta = "";
+	$cumplimientoepis = "";
+	$acciones = "";
+	if(isset($_POST["check1"]))
+	{
+		$seguridad = true;
+	}
+	if(isset($_POST["check2"]))
+	{
+		$medioambiente = true;
+	}
+	if(isset($_POST["check3"]))
+	{
+		$calidad = true;
+	}
+	if(isset($_POST["check4"]))
+	{
+		$cumplimientoepis = true;
+	}
+	if(isset($_POST["propuestas_audi"]))
+	{
+		$propuesta = $_POST["propuestas_audi"];
+	}
+	if(isset($_POST["acciones_audi"]))
+	{
+		$acciones = $_POST["acciones_audi"];
+	}
+	$turno = $_SESSION["turno"];
+	$sql = "SELECT * FROM auditorias WHERE num_operario = '$operario_auditar' and turno = '$turno'";
+	$do = mysqli_query($link, $sql);
+	if($do->num_rows == 0)
+	{
+		$fecha = date('Y-m-d', time());
+		$hora = date('H:i', time());
+		$sql = "INSERT INTO `auditorias` (`turno`, `id`, `auditor`, `num_operario`, `seguridad`, `medioambiente`, `calidad`, `propuestas`, `acciones`, `comentarios`, `fecha`, `hora`) VALUES ('$turno', NULL, '$iduser', '$operario_auditar', '$seguridad', '$medioambiente', '$calidad', '$propuesta', '$acciones', NULL, '$fecha', '$hora')";
+		if($does = mysqli_query($link, $sql))
+		{
+			header('location: index.php?nice=1');
+		}
+	}
+	else
+	{
+		header('location: index.php?err=7');
+	}
+}
 ?>
 <!doctype html>
 <html lang="es">
@@ -724,7 +777,36 @@ $do = mysqli_query($link, $sql);
                     </span>
                     <input type="text" name="input_cambio" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
                   </div>
-                </div>
+                </div><?php
+		  if(isset($_SESSION["turno"]))
+		  {
+		  $turno = $_SESSION["turno"];
+		  $sql = "SELECT * FROM cambios WHERE turno = $turno";
+		  $do = mysqli_query($link ,$sql);
+		  if($do->num_rows > 0)
+		  {
+			echo('<hr>
+			<table>
+			<thead>
+				<tr>
+				  <th>Cambios Actuales</th>
+				</tr>
+			</thead>
+				<tbody>
+				
+				');
+				$sql = "SELECT * FROM cambios WHERE turno = $turno";
+				$do = mysqli_query($link, $sql);
+				while($row = mysqli_fetch_assoc($do))
+				{
+					echo('<tr><td><a href="index.php?ecambio='.$row["id"].'">Eliminar</a></td><td>'.$row["cambio"].'</td></tr><tr><td></td><td></td></tr>');
+				}
+		   echo('
+		   </tbody>
+		</table>'); 
+		  }
+		}
+		  ?>
               </div>
             </div>
           </div>
@@ -737,8 +819,11 @@ $do = mysqli_query($link, $sql);
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
               Reportar Cambio
             </button>
+			
           </div>
+		  
 		  </form>
+		  
         </div>
       </div>
 	</div>
@@ -753,7 +838,7 @@ $do = mysqli_query($link, $sql);
           <div class="modal-body">
 		  <div class="mb-3">
               <label class="form-label">Operario Auditado</label>
-              <select name="operario_inc" required id="" class="form-select">
+              <select name="operario_audi" required id="" class="form-select">
 			  <?php
 			  $sql = "SELECT * FROM personal";
 			  if($do = mysqli_query($link, $sql)){
@@ -768,19 +853,19 @@ $do = mysqli_query($link, $sql);
 			<div class="col-md-6 col-lg-4">
 			<div class="form-group">
                         <div class="form-label">Seleccione las siguientes casillas</div>
-                        <div class="custom-controls-stacked">
+                        <div class="custom-controls-stacked"><hr>
                           <label class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" name="check1" value="option1" checked>
                             <span class="custom-control-label">Seguridad</span>
-                          </label><br>
+                          </label><br><hr>
                           <label class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" name="check2" value="option2">
                             <span class="custom-control-label">Medioambiente</span>
-						  </label><br>
+						  </label><br><hr>
 						  <label class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" name="check3" value="option2">
                             <span class="custom-control-label">Calidad</span>
-						  </label><br>
+						  </label><br><hr>
 						  <label class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" name="check4" value="option2">
                             <span class="custom-control-label">Cumplimiento EPIS</span>
@@ -816,7 +901,7 @@ $do = mysqli_query($link, $sql);
             </a>
             <button type="submit" class="btn btn-primary ms-auto">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-              Reportar Cambio
+              Auditar
             </button>
           </div>
 		  </form>
