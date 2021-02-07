@@ -187,7 +187,7 @@ if($do = mysqli_query($link, $sql))
 		$sql = "INSERT INTO `ausencias_rot` (`id`, `fecha`, `num_operario`, `ausente`, `causa`, `puesto1`, `puesto2`, `horas1`, `horas2`, `turno`, `usuario`) VALUES (NULL, '$fecha_unix', '$operario_nuevo', '$ausente', '$causa_ausencia', '$puesto1_nuevo', '$puesto2_nuevo', '$horas1_nuevo', '$horas2_nuevo', '$turno_id', '$iduser')";
 		if($do = mysqli_query($link, $sql))
 		{
-	
+			header('location: index.php?nice=3');
 		}else
 		{
 			
@@ -248,7 +248,7 @@ if(isset($_POST["operario_inc"]) && isset($_POST["accidente"]))
 	}
 	if($do = mysqli_query($link,$sql))
 	{
-
+		header('location: index.php?nice=2');
 	}else
 	{
 		echo mysqli_error($link);
