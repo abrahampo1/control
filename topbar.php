@@ -472,7 +472,7 @@ if (isset($_POST["cuenta"])) {
                 <div class="input-group input-group-flat">
                   <span class="input-group-text">
                   </span>
-                  <input type="text" name="mail_server" required class="form-control ps-0" value="<?php echo $info_usuario["nombre"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  <input type="text" name="cuenta_nombre" required class="form-control ps-0" value="<?php echo $info_usuario["nombre"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                 </div>
               </div>
               <div class="mb-3">
@@ -480,7 +480,7 @@ if (isset($_POST["cuenta"])) {
                 <div class="input-group input-group-flat">
                   <span class="input-group-text">
                   </span>
-                  <input type="text" name="mail_port" required class="form-control ps-0" value="<?php echo $info_usuario["mail"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  <input type="text" name="cuenta_mail" required class="form-control ps-0" value="<?php echo $info_usuario["mail"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                 </div>
               </div>
             </div>
