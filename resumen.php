@@ -21,7 +21,6 @@ $ausencias_totales = 0;
 $sql = "SELECT * FROM turnos WHERE id = $turno";
 $do = mysqli_query($link, $sql);
 $info_turno = mysqli_fetch_assoc($do);
-$sql = "SELECT * FROM incidencias WHERE turno = '$turno'";
 $sql = "SELECT * FROM incidencias WHERE turno = '$turno_numero'";
 if ($fo = mysqli_query($link, $sql)) {
 	$incidencias_totales += $fo->num_rows;
@@ -138,7 +137,7 @@ if ($fo = mysqli_query($link, $sql)) {
 									</div>
 								</div>
 								<div class="d-flex align-items-baseline">
-									<div class="h1 mb-3 me-2">0</div>
+									<div class="h1 mb-3 me-2"><?php echo $auditorias_totales; ?></div>
 									<div class="me-auto">
 									</div>
 								</div>
