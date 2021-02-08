@@ -336,13 +336,13 @@ if(isset($_POST["operario_audi"]))
 	{
 		$cumplimientoepis = true;
 	}
-	if(isset($_POST["propuestas_audi"]))
+	if(isset($_POST["audi_propuesta"]))
 	{
-		$propuesta = $_POST["propuestas_audi"];
+		$propuesta = $_POST["audi_propuesta"];
 	}
-	if(isset($_POST["acciones_audi"]))
+	if(isset($_POST["audi_accion"]))
 	{
-		$acciones = $_POST["acciones_audi"];
+		$acciones = $_POST["audi_accion"];
 	}
 	$turno = $_SESSION["turno"];
 	$sql = "SELECT * FROM auditorias WHERE num_operario = '$operario_auditar' and turno = '$turno'";
