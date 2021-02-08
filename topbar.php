@@ -443,11 +443,11 @@ if (isset($_POST["clave_vieja"])) {
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label">Puerto Servidor</label>
+                <label class="form-label">Email</label>
                 <div class="input-group input-group-flat">
                   <span class="input-group-text">
                   </span>
-                  <input type="text" name="mail_port" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  <input type="text" name="mail_port" required class="form-control ps-0" value="<?php echo $info_usuario["mail"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                 </div>
               </div>
               <div class="mb-3">
