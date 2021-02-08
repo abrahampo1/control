@@ -27,32 +27,29 @@ if (isset($_POST["clave_vieja"])) {
     }
   }
 }
-
-if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
-$fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
-$fileName = $_FILES['uploadedFile']['name'];
-$fileSize = $_FILES['uploadedFile']['size'];
-$fileType = $_FILES['uploadedFile']['type'];
-$fileNameCmps = explode(".", $fileName);
-$fileExtension = strtolower(end($fileNameCmps));
-$allowedfileExtensions = array('jpg', 'png');
-if (in_array($fileExtension, $allowedfileExtensions)) {
-  $uploadFileDir = './dist/img/avatar/';
-  $newFileName = $iduser . '.png';
-  $dest_path = $uploadFileDir . $newFileName;
-  if(file_exists($dest_path))
-  {
-    unlink($dest_path);
+if (isset($_POST["cuenta"])) {
+  if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
+    $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
+    $fileName = $_FILES['uploadedFile']['name'];
+    $fileSize = $_FILES['uploadedFile']['size'];
+    $fileType = $_FILES['uploadedFile']['type'];
+    $fileNameCmps = explode(".", $fileName);
+    $fileExtension = strtolower(end($fileNameCmps));
+    $allowedfileExtensions = array('jpg', 'png');
+    if (in_array($fileExtension, $allowedfileExtensions)) {
+      $uploadFileDir = './dist/img/avatar/';
+      $newFileName = $iduser . '.png';
+      $dest_path = $uploadFileDir . $newFileName;
+      if (file_exists($dest_path)) {
+        unlink($dest_path);
+      }
+      if (move_uploaded_file($fileTmpPath, $dest_path)) {
+        $message = 'File is successfully uploaded.';
+      } else {
+        $message = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
+      }
+    }
   }
-  if(move_uploaded_file($fileTmpPath, $dest_path))
-  {
-    $message ='File is successfully uploaded.';
-  }
-  else
-  {
-    $message = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
-  }
-}
 }
 
 ?>
@@ -485,7 +482,7 @@ if (in_array($fileExtension, $allowedfileExtensions)) {
           <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
             Cancelar
           </a>
-          <button type="submit" class="btn btn-primary ms-auto">
+          <button type="submit" name="cuenta" class="btn btn-primary ms-auto">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <line x1="12" y1="5" x2="12" y2="19" />
