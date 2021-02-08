@@ -402,16 +402,17 @@ if(isset($_POST["operario_audi"]))
               <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
 				<?php
+				if($datos_usuario["tipo"] == "admin")
+				{
+					echo('<span class="d-none d-sm-inline">
+					<a href="update.php" class="btn btn-white">
+					 Actualizar via Github
+					</a>
+				  </span>');
+				}
 				if(isset($_SESSION["turno"]))
 				{
-					if($datos_usuario["tipo"] == "admin")
-					{
-						echo('<span class="d-none d-sm-inline">
-						<a href="update.php" class="btn btn-white">
-						 Actualizar via Github
-						</a>
-					  </span>');
-					}
+					
 					echo('
 					<span class="d-none d-sm-inline">
 					  <a href="#" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#hacer-cambio">
