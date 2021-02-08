@@ -37,7 +37,7 @@ if (isset($_POST["cuenta"])) {
     $fileExtension = strtolower(end($fileNameCmps));
     $allowedfileExtensions = array('jpg', 'png');
     if (in_array($fileExtension, $allowedfileExtensions)) {
-      $uploadFileDir = './dist/img/avatar/';
+      $uploadFileDir = 'dist/img/avatar/';
       $newFileName = $iduser . '.png';
       $dest_path = $uploadFileDir . $newFileName;
       if (file_exists($dest_path)) {
