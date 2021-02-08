@@ -82,6 +82,12 @@ if($do = mysqli_query($link, $sql))
                 <a href="#" class="dropdown-item">Cuenta</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cambiar-clave">Cambiar Contraseña</a>
+                <?php
+                if($info_user["tipo"] == "admin")
+                {
+                  echo '<a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cambiar-mail">Configurar Email Automatico</a>';
+                }
+                ?>
                 <a href="./logout.php" class="dropdown-item">Cerrar Sesión</a>
               </div>
             </div>
@@ -286,6 +292,89 @@ if($do = mysqli_query($link, $sql))
                     <span class="input-group-text">
                     </span>
                     <input type="password" name="clave_nueva2" id="confirm_password" required class="form-control ps-0"  value="" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+              Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary ms-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              Cambiar Contraseña
+            </button>
+			
+          </div>
+		  
+		  </form>
+		  
+        </div>
+      </div>
+  </div>
+  <div class="modal modal-blur fade" id="cambiar-mail" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+		<form action="" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title">Configurar Email</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="mb-3">
+                  <?php
+                  $sql = "SELECT * FROM ajustes WHERE nombre = 'mailserver'";
+                  $do = mysqli_query($link, $sql);
+                  $row = mysqli_fetch_assoc($do);
+                  ?>
+                  <label class="form-label">Servidor SMTP</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="text" name="mail_server" required class="form-control ps-0"  value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+				<div class="mb-3">
+        <?php
+                  $sql = "SELECT * FROM ajustes WHERE nombre = 'mailport'";
+                  $do = mysqli_query($link, $sql);
+                  $row = mysqli_fetch_assoc($do);
+                  ?>
+                  <label class="form-label">Puerto Servidor</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="text" name="mail_port" required class="form-control ps-0"  value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+				        <div class="mb-3">
+                <?php
+                  $sql = "SELECT * FROM ajustes WHERE nombre = 'mailuser'";
+                  $do = mysqli_query($link, $sql);
+                  $row = mysqli_fetch_assoc($do);
+                  ?>
+                  <label class="form-label">Usuario</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="text" name="mail_user" required class="form-control ps-0"  value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+                <div class="mb-3">
+                <?php
+                  $sql = "SELECT * FROM ajustes WHERE nombre = 'mailpass'";
+                  $do = mysqli_query($link, $sql);
+                  $row = mysqli_fetch_assoc($do);
+                  ?>
+                  <label class="form-label">Clave</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="password" name="mail_pass" required class="form-control ps-0"  value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                   </div>
                 </div>
               </div>
