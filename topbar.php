@@ -28,6 +28,8 @@ if (isset($_POST["clave_vieja"])) {
   }
 }
 if (isset($_POST["cuenta_nombre"])) {
+  $nombre = $_POST["cuenta_nombre"];
+  $mail = $_POST["cuenta_mail"];
   if (isset($_FILES['uploadedFile'])) {
     $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
     $fileName = $_FILES['uploadedFile']['name'];
@@ -49,13 +51,11 @@ if (isset($_POST["cuenta_nombre"])) {
         echo 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
         exit;
       }
-    }else
-    {
+    } else {
       echo "Error: No es un archivo valido";
       exit;
     }
-  }else
-  {
+  } else {
     echo "Error: No es un archivo valido";
     exit;
   }
@@ -432,25 +432,25 @@ if (isset($_POST["cuenta_nombre"])) {
             </div>
           </div>
         </div>
+
+
+        <div class="modal-footer">
+          <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+            Cancelar
+          </a>
+          <button type="submit" class="btn btn-primary ms-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Cambiar Contraseña
+          </button>
+
+        </div>
+
+      </form>
     </div>
-
-    <div class="modal-footer">
-      <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-        Cancelar
-      </a>
-      <button type="submit" class="btn btn-primary ms-auto">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <line x1="12" y1="5" x2="12" y2="19" />
-          <line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
-        Cambiar Contraseña
-      </button>
-
-    </div>
-
-    </form>
-
   </div>
 </div>
 <div class="modal modal-blur fade" id="cambiar-cuenta" tabindex="-1" role="dialog" aria-hidden="true">
