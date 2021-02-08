@@ -450,7 +450,7 @@ if (isset($_POST["clave_vieja"])) {
                   <input type="text" name="mail_port" required class="form-control ps-0" value="<?php echo $info_usuario["mail"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                 </div>
               </div>
-            </div>Í
+            </div>
           </div>
         </div>
 
@@ -464,7 +464,7 @@ if (isset($_POST["clave_vieja"])) {
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
-            Cambiar Contraseña
+            Guardar
           </button>
 
         </div>
