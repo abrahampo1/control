@@ -378,6 +378,20 @@ if($do = mysqli_query($link, $sql))
                   </div>
                 </div>
               </div>
+              <div class="mb-3">
+                <?php
+                  $sql = "SELECT * FROM ajustes WHERE nombre = 'mailto'";
+                  $do = mysqli_query($link, $sql);
+                  $row = mysqli_fetch_assoc($do);
+                  ?>
+                  <label class="form-label">Destinatarios (separar cada mail usando ;)</label>
+                  <div class="input-group input-group-flat">
+                    <span class="input-group-text">
+                    </span>
+                    <input type="password" name="mail_pass" required class="form-control ps-0"  value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           
