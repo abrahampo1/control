@@ -9,6 +9,7 @@ if (!isset($_SESSION["turno"])) {
 	}
 } else {
 	$turno = $_SESSION["turno"];
+	$turno_numero = $_SESSION["turno"];
 }
 
 $fecha_ahora = date('Y-m-d', time());
