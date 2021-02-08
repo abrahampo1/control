@@ -54,6 +54,9 @@ if(!isset($_SESSION["turno"]))
 				$ausencias_totales += $fo->num_rows;
             }
             $currentWeekNumber = date('W');
+$sql = "SELECT * FROM ajustes WHERE nombre = 'mailpass'";
+$do = mysqli_query($link, $sql);
+$info_ajustes = mysqli_fetch_assoc($do);
 // Load Composer's autoloader
 require 'vendor/autoload.php';
 
@@ -66,7 +69,7 @@ try {
     $mail->Host       = 'smtp.ionos.es';                    // Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
     $mail->Username   = 'abraham@cpsoftware.es';                     // SMTP username
-    $mail->Password   = 'Abraham.leiro1';                               // SMTP password
+    $mail->Password   = $info_ajustes["value"];                               // SMTP password
     $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
     //Recipients
