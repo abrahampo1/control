@@ -497,7 +497,7 @@ if($do = mysqli_query($link, $sql))
 		  </form>
 		  
         </div>
-      </div>
+      </div></div></div>
   <script>
   	var password = document.getElementById("password")
   , confirm_password = document.getElementById("confirm_password");
