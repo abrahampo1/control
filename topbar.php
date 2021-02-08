@@ -46,8 +46,13 @@ if (isset($_POST["cuenta"])) {
       if (move_uploaded_file($fileTmpPath, $dest_path)) {
         $message = 'File is successfully uploaded.';
       } else {
-        $message = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
+        echo 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
+        exit;
       }
+    }else
+    {
+      echo "Error: No es un archivo valido";
+      exit;
     }
   }else
   {
