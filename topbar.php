@@ -432,9 +432,9 @@ if (isset($_POST["clave_vieja"])) {
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-              <img src="dist/img/avatar/<?php echo $info_usuario["id"] ?>.png" width="150px" height="150px" style="border-radius: 5px;" alt="">
-              <button>Cambiar Foto</button>
-              <br>
+                <img src="dist/img/avatar/<?php echo $info_usuario["id"] ?>.png" width="150px" height="150px" style="border-radius: 5px;" alt="">
+                <button>Cambiar Foto</button>
+                <br>
                 <label class="form-label">Nombre</label>
                 <div class="input-group input-group-flat">
                   <span class="input-group-text">
@@ -450,46 +450,7 @@ if (isset($_POST["clave_vieja"])) {
                   <input type="text" name="mail_port" required class="form-control ps-0" value="<?php echo $info_usuario["mail"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                 </div>
               </div>
-              <div class="mb-3">
-                <?php
-                $sql = "SELECT * FROM ajustes WHERE nombre = 'mailuser'";
-                $do = mysqli_query($link, $sql);
-                $row = mysqli_fetch_assoc($do);
-                ?>
-                <label class="form-label">Usuario</label>
-                <div class="input-group input-group-flat">
-                  <span class="input-group-text">
-                  </span>
-                  <input type="text" name="mail_user" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
-                </div>
-              </div>
-              <div class="mb-3">
-                <?php
-                $sql = "SELECT * FROM ajustes WHERE nombre = 'mailpass'";
-                $do = mysqli_query($link, $sql);
-                $row = mysqli_fetch_assoc($do);
-                ?>
-                <label class="form-label">Clave</label>
-                <div class="input-group input-group-flat">
-                  <span class="input-group-text">
-                  </span>
-                  <input type="password" name="mail_pass" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
-                </div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <?php
-              $sql = "SELECT * FROM ajustes WHERE nombre = 'mailto'";
-              $do = mysqli_query($link, $sql);
-              $row = mysqli_fetch_assoc($do);
-              ?>
-              <label class="form-label">Destinatarios (separar cada mail usando ;)</label>
-              <div class="input-group input-group-flat">
-                <span class="input-group-text">
-                </span>
-                <input type="password" name="mail_pass" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
-              </div>
-            </div>
+            </div>Í
           </div>
         </div>
 
