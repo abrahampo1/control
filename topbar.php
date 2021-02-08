@@ -59,10 +59,6 @@ if (isset($_POST["cuenta"])) {
     echo "Error: No es un archivo valido";
     exit;
   }
-}else
-{
-  echo "Error: No es un archivo valido";
-  exit;
 }
 
 ?>
