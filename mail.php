@@ -56,7 +56,16 @@ if(!isset($_SESSION["turno"]))
             $currentWeekNumber = date('W');
 $sql = "SELECT * FROM ajustes WHERE nombre = 'mailpass'";
 $do = mysqli_query($link, $sql);
-$info_ajustes = mysqli_fetch_assoc($do);
+$info_mailpass = mysqli_fetch_assoc($do);
+$sql = "SELECT * FROM ajustes WHERE nombre = 'mailuser'";
+$do = mysqli_query($link, $sql);
+$info_mailuser = mysqli_fetch_assoc($do);
+$sql = "SELECT * FROM ajustes WHERE nombre = 'mailserver'";
+$do = mysqli_query($link, $sql);
+$info_mailserver = mysqli_fetch_assoc($do);
+$sql = "SELECT * FROM ajustes WHERE nombre = 'mailport'";
+$do = mysqli_query($link, $sql);
+$info_mailport = mysqli_fetch_assoc($do);
 // Load Composer's autoloader
 require 'vendor/autoload.php';
 
@@ -66,11 +75,11 @@ $mail = new PHPMailer(true);
 try {
     //Server settings                     // Enable verbose debug output
     $mail->isSMTP();                                            // Send using SMTP
-    $mail->Host       = 'smtp.ionos.es';                    // Set the SMTP server to send through
+    $mail->Host       = $info_mailserver["value"];                    // Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-    $mail->Username   = 'abraham@cpsoftware.es';                     // SMTP username
-    $mail->Password   = $info_ajustes["value"];                               // SMTP password
-    $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+    $mail->Username   = $info_mailuser["value"];                     // SMTP username
+    $mail->Password   = $info_mailpass["value"];                               // SMTP password
+    $mail->Port       = $info_mailport["value"];                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
     //Recipients
     $mail->setFrom('abraham@cpsoftware.es', 'Ilunion');
