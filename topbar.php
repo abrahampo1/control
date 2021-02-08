@@ -431,8 +431,8 @@ if (isset($_POST["clave_vieja"])) {
         <div class="modal-body">
           <div class="row">
             <div class="col-lg-12">
-              <img src="dist/img/avatar/<?php echo $info_usuario["id"] ?>.png" alt="">
               <div class="mb-3">
+              <img src="dist/img/avatar/<?php echo $info_usuario["id"] ?>.png" width="150px" height="150px" alt="">
                 <label class="form-label">Nombre</label>
                 <div class="input-group input-group-flat">
                   <span class="input-group-text">
