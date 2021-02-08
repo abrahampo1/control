@@ -83,7 +83,7 @@ if($do = mysqli_query($link, $sql))
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cambiar-clave">Cambiar Contraseña</a>
                 <?php
-                if($info_user["tipo"] == "admin")
+                if($info_usuario["tipo"] == "admin")
                 {
                   echo '<a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cambiar-mail">Configurar Email Automatico</a>';
                 }
