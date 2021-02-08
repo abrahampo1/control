@@ -28,7 +28,7 @@ if (isset($_POST["clave_vieja"])) {
   }
 }
 if (isset($_POST["cuenta"])) {
-  if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
+  if (isset($_FILES['uploadedFile'])) {
     $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
     $fileName = $_FILES['uploadedFile']['name'];
     $fileSize = $_FILES['uploadedFile']['size'];
