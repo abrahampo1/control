@@ -28,6 +28,33 @@ if (isset($_POST["clave_vieja"])) {
   }
 }
 
+if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
+$fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
+$fileName = $_FILES['uploadedFile']['name'];
+$fileSize = $_FILES['uploadedFile']['size'];
+$fileType = $_FILES['uploadedFile']['type'];
+$fileNameCmps = explode(".", $fileName);
+$fileExtension = strtolower(end($fileNameCmps));
+$allowedfileExtensions = array('jpg', 'png');
+if (in_array($fileExtension, $allowedfileExtensions)) {
+  $uploadFileDir = './dist/img/avatar/';
+  $newFileName = $iduser . '.png';
+  $dest_path = $uploadFileDir . $newFileName;
+  if(file_exists($dest_path))
+  {
+    unlink($dest_path);
+  }
+  if(move_uploaded_file($fileTmpPath, $dest_path))
+  {
+    $message ='File is successfully uploaded.';
+  }
+  else
+  {
+    $message = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
+  }
+}
+}
+
 ?>
 <header class="navbar navbar-expand-md navbar-light d-print-none">
   <div class="container-xl">
@@ -423,7 +450,7 @@ if (isset($_POST["clave_vieja"])) {
 <div class="modal modal-blur fade" id="cambiar-cuenta" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <form action="" method="post">
+      <form action="" method="post" enctype="multipart/form-data">
         <div class="modal-header">
           <h5 class="modal-title">Configurar Cuenta</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -433,7 +460,7 @@ if (isset($_POST["clave_vieja"])) {
             <div class="col-lg-12">
               <div class="mb-3">
                 <img src="dist/img/avatar/<?php echo $info_usuario["id"] ?>.png" width="150px" height="150px" style="border-radius: 5px;" alt="">
-                <button>Cambiar Foto</button>
+                <input type="file" name="uploadedFile" />
                 <br>
                 <label class="form-label">Nombre</label>
                 <div class="input-group input-group-flat">
