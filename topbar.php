@@ -66,6 +66,46 @@ if (isset($_POST["cuenta_nombre"])) {
   }
 }
 
+if(isset($_POST["mail_server"]))
+{
+  $mail_server = $_POST["mail_server"];
+  $mail_port = $_POST["mail_port"];
+  $mail_user = $_POST["mail_user"];
+  $mail_pass = $_POST["mail_pass"];
+  $mail_to = $_POST["mail_to"];
+
+  $sql = "UPDATE `ajustes` SET `value` = '$mail_server' WHERE `ajustes`.`nombre` = 'mail_server'";
+  if($do = mysqli_query($link, $sql))
+  {}else{
+    echo "Error en la base de datos al meter el servidor de mail";
+    exit;
+  }
+  $sql = "UPDATE `ajustes` SET `value` = '$mail_port' WHERE `ajustes`.`nombre` = 'mailport'";
+  if($do = mysqli_query($link, $sql))
+  {}else{
+    echo "Error en la base de datos al meter el puerto de mail";
+    exit;
+  }
+  $sql = "UPDATE `ajustes` SET `value` = '$mail_user' WHERE `ajustes`.`nombre` = 'mailuser'";
+  if($do = mysqli_query($link, $sql))
+  {}else{
+    echo "Error en la base de datos al meter el usuario de mail";
+    exit;
+  }
+  $sql = "UPDATE `ajustes` SET `value` = '$mail_pass' WHERE `ajustes`.`nombre` = 'mailpass'";
+  if($do = mysqli_query($link, $sql))
+  {}else{
+    echo "Error en la base de datos al meter la clave de mail";
+    exit;
+  }
+  $sql = "UPDATE `ajustes` SET `value` = '$mail_to' WHERE `ajustes`.`nombre` = 'mailto'";
+  if($do = mysqli_query($link, $sql))
+  {}else{
+    echo "Error en la base de datos al meter los destinatarios de mail";
+    exit;
+  }
+}
+
 ?>
 <header class="navbar navbar-expand-md navbar-light d-print-none">
   <div class="container-xl">
@@ -418,7 +458,7 @@ if (isset($_POST["cuenta_nombre"])) {
                 <div class="input-group input-group-flat">
                   <span class="input-group-text">
                   </span>
-                  <input type="password" name="mail_pass" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  <input type="text" name="mail_pass" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                 </div>
               </div>
             </div>
@@ -432,7 +472,7 @@ if (isset($_POST["cuenta_nombre"])) {
               <div class="input-group input-group-flat">
                 <span class="input-group-text">
                 </span>
-                <input type="password" name="mail_pass" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                <input type="text" name="mail_to" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
               </div>
             </div>
           </div>
