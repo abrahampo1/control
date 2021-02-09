@@ -447,7 +447,7 @@ if (isset($_POST["operario_audi"])) {
 						<td>' . $row["estado"] . '</td>
 						<td>' . $fecha . '</td>
 						<td><a href="resumen.php?id='.$row["id"].'"><i class="fas fa-eye"></i></a></td>
-						<td><button><i class="fas fa-pen"></i></button></td>
+						<td><a><i class="fas fa-pen"></i></a></td>
 						</tr>');
 							}
 							echo (' 
@@ -468,7 +468,7 @@ if (isset($_POST["operario_audi"])) {
 							  </div>
 							</div>
 							<div class="d-flex align-items-baseline">
-							  <div class="h1 mb-0 me-2"><?php echo $incidencias_totales;?></div>
+							  <div class="h1 mb-0 me-2">'.$incidencias_totales.'</div>
 							  <div class="me-auto">
 							  </div>
 							</div>
