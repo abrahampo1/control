@@ -30,6 +30,10 @@ if (isset($_POST["clave_vieja"])) {
 if (isset($_POST["cuenta_nombre"])) {
   $nombre = $_POST["cuenta_nombre"];
   $mail = $_POST["cuenta_mail"];
+  $sql = "UPDATE `usuarios` SET `nombre` = '$nombre', SET `mail` = '$mail' WHERE `usuarios`.`id` = '$iduser'";
+  if ($do = mysqli_query($link, $sql)) {
+    header('location: index.php?nice=8');
+  }
   if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
     $fileName = $_FILES['uploadedFile']['name'];
@@ -55,11 +59,6 @@ if (isset($_POST["cuenta_nombre"])) {
       echo "Error: No es un archivo valido";
       exit;
     }
-  }
-  $sql = "UPDATE `usuarios` SET `nombre` = '$nombre', SET `mail` = '$mail' WHERE `usuarios`.`id` = '$iduser'";
-  if($do = mysqli_query($link, $sql))
-  {
-    header('location: index.php?nice=8');
   }
 }
 
