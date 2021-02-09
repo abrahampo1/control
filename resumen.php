@@ -4,6 +4,7 @@ require('protect.php');
 if (!isset($_SESSION["turno"])) {
 	if (isset($_GET["id"])) {
 		$turno = $_GET["id"];
+		$turno_numero = $_GET["id"];
 	} else {
 		header('location: index.php');
 	}
@@ -192,10 +193,9 @@ if ($fo = mysqli_query($link, $sql)) {
 									<div class="card-body">
 										<h3 class="card-title">Asistencia y Rotación</h3>
 										<?php
-										$turno = $_SESSION["turno"];
 										$sql = "SELECT * FROM ausencias_rot WHERE turno = $turno AND ausente='false'";
 										$do = mysqli_query($link, $sql);
-										if (isset($_SESSION["turno"]) && $do->num_rows != 0) {
+										if ($do->num_rows != 0) {
 											echo ('
 			<table id="table_id" class="display" width="100%" style="margin:0px">
 			<thead>
@@ -254,10 +254,9 @@ if ($fo = mysqli_query($link, $sql)) {
 									<div class="card-footer">
 										<h3>Ausencias en el turno</h3>
 										<?php
-										$turno = $_SESSION["turno"];
 										$sql = "SELECT * FROM ausencias_rot WHERE turno = $turno AND ausente = 'true'";
 										$do = mysqli_query($link, $sql);
-										if (isset($_SESSION["turno"]) && $do->num_rows != 0) {
+										if ($do->num_rows != 0) {
 											echo ('
 			<table id="table_id" class="display" width="100%" style="margin:0px">
 			<thead>
