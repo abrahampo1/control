@@ -458,7 +458,7 @@ if(isset($_POST["mail_server"]))
                 <div class="input-group input-group-flat">
                   <span class="input-group-text">
                   </span>
-                  <input type="text" name="mail_pass" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
+                  <input type="password" name="mail_pass" required class="form-control ps-0" value="<?php echo $row["value"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                 </div>
               </div>
             </div>
