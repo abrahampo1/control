@@ -9,7 +9,8 @@ function nice(int $i){
         'Se ha eliminado correctametne.',
         'Se ha añadido el cambio correctamente.',
         'Email enviado correctamente.',
-        'Se ha cambiado la contraseña correctamente, por favor, vuelva a iniciar sesión.'
+        'Se ha cambiado la contraseña correctamente, por favor, vuelva a iniciar sesión.',
+        'Se han actualizado los datos de su cuenta correctamente.'
     );
     return $nice[$i];
 }

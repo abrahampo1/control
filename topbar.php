@@ -59,6 +59,11 @@ if (isset($_POST["cuenta_nombre"])) {
     echo "Error: No es un archivo valido";
     exit;
   }
+  $sql = "UPDATE `usuarios` SET `nombre` = '$nombre', SET `mail` = '$mail' WHERE `usuarios`.`id` = '$iduser'";
+  if($do = mysqli_query($link, $sql))
+  {
+    header('location: index.php?nice=8');
+  }
 }
 
 ?>
