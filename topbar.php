@@ -33,6 +33,10 @@ if (isset($_POST["cuenta_nombre"])) {
   $sql = "UPDATE `usuarios` SET `nombre` = '$nombre', SET `mail` = '$mail' WHERE `usuarios`.`id` = '$iduser'";
   if ($do = mysqli_query($link, $sql)) {
     header('location: index.php?nice=8');
+  }else
+  {
+    echo mysqli_error($link);
+    exit;
   }
   if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
