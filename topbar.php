@@ -74,7 +74,7 @@ if(isset($_POST["mail_server"]))
   $mail_pass = $_POST["mail_pass"];
   $mail_to = $_POST["mail_to"];
 
-  $sql = "UPDATE `ajustes` SET `value` = '$mail_server' WHERE `ajustes`.`nombre` = 'mail_server'";
+  $sql = "UPDATE `ajustes` SET `value` = '$mail_server' WHERE `ajustes`.`nombre` = 'mailserver'";
   if($do = mysqli_query($link, $sql))
   {}else{
     echo "Error en la base de datos al meter el servidor de mail";
