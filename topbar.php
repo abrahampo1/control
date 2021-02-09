@@ -30,7 +30,7 @@ if (isset($_POST["clave_vieja"])) {
 if (isset($_POST["cuenta_nombre"])) {
   $nombre = $_POST["cuenta_nombre"];
   $mail = $_POST["cuenta_mail"];
-  if (isset($_FILES['uploadedFile'])) {
+  if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
     $fileName = $_FILES['uploadedFile']['name'];
     $fileSize = $_FILES['uploadedFile']['size'];
