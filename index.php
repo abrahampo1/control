@@ -1889,7 +1889,7 @@ $(document).ready( function () {
               </div>
             </div>
             <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-              V.9.2.21 Copyright © 2021 <a href="mailto:abraham@cpsoftware.es">CPSoftware</a>. </a>El programa ha sido creado por Abraham Leiro Fernandez y Rubén Bendaña Couse.
+              V.9.2.21BETA Copyright © 2021 <a href="mailto:abraham@cpsoftware.es">CPSoftware</a>. </a>El programa ha sido creado por Abraham Leiro Fernandez y Rubén Bendaña Couse.
             </div>
           </div>
         </div>
