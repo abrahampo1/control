@@ -67,6 +67,12 @@ require 'vendor/autoload.php';
 
 // Instantiation and passing `true` enables exceptions
 $arraymailto = explode(';', $info_mailto['value']);
+if(count($arraymailto) == 0)
+{
+    $arraymailto = array(
+        $info_mailto["value"]
+    );
+}
 for ($i = 0; $i < count($arraymailto); $i++) {
     $mail = new PHPMailer(true);
 
@@ -81,7 +87,7 @@ for ($i = 0; $i < count($arraymailto); $i++) {
 
         //Recipients
         $mail->setFrom('abraham@cpsoftware.es', 'Ilunion');
-        $mail->addAddress('rbendana@ilunion.com', '');
+        $mail->addAddress($arraymailto[$i], '');
 
         // Content
         $mail->isHTML(true);
