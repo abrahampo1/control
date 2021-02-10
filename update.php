@@ -16,7 +16,7 @@ $sql = "SELECT * FROM ajustes WHERE nombre = 'gitpass'";
 $do = mysqli_query($link, $sql);
 $pass = mysqli_fetch_assoc($do);
 
-execPrint("git pull https://".$user["value"].":".$pass["value"]."@github.com/Abrahampo1/control.git");
+execPrint("git pull");
 header("location: index.php?nice=0");
 execPrint("git status");
 ?>
