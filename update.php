@@ -18,4 +18,5 @@ $pass = mysqli_fetch_assoc($do);
 
 execPrint("git pull https://".$user["value"].":".$pass["value"]."@github.com/abrahampo1/control.git beta");
 //header("location: index.php?nice=0");
+execPrint("git status");
 ?>
