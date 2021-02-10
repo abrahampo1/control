@@ -1,5 +1,4 @@
 <?php
-function nice(int $i){
     $nice = array( 
 
         'El programa se ha actualizado correctamente de https://github.com/abrahampo1/control.',
@@ -12,8 +11,6 @@ function nice(int $i){
         'Se ha cambiado la contraseña correctamente, por favor, vuelva a iniciar sesión.',
         'Se han actualizado los datos de su cuenta correctamente.'
     );
-    return $nice[$i];
-}
 
 
 

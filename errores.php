@@ -1,5 +1,4 @@
 <?php
-function error(int $i){
     $error = array( 
 
         'Debes seleccionar una causa si el operario esta ausente.',
@@ -11,8 +10,6 @@ function error(int $i){
         'Ya existe una auditoria hacia ese operario eliminela primero si quiere modificarla.',
         'El sistema ha detectado un error en la base de datos, por favor intentelo de nuevo o comuniqueselo al técnico correspondiente.'
     );
-    return $error[$i];
-}
 
 
 

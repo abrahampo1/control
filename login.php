@@ -58,7 +58,7 @@ if(password_verify($pass, $result["clave"]))
     if(isset($_GET["nice"]))
     {
       include('nice.php');
-      $mensaje = nice($_GET["nice"]);
+      $mensaje = $nice[$_GET["nice"]];
       echo('
       <div class="card" style="color:green">
         <div class="card-header">
