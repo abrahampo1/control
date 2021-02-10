@@ -88,7 +88,7 @@ if(password_verify($pass, $result["clave"]))
         </div>
         <form class="card card-md" action="login.php" method="post" autocomplete="off">
           <div class="card-body">
-            <h2 class="card-title text-center mb-4">Inicia sesion en tu cuenta</h2>
+            <h2 class="card-title text-center mb-4">Inicia sesion (ESTE ES UN SERVIDOR BETA, NO USAR PARA TRABAJAR)</h2>
             <div class="mb-3">
               <label class="form-label">Email</label>
               <input type="email" name="user" class="form-control" placeholder="Introduce el email">
