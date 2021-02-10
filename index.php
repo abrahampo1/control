@@ -372,7 +372,7 @@ if (isset($_POST["operario_audi"])) {
 				<div class="row row-deck row-cards">
 					<?php
 					if (isset($_GET["err"])) {
-						$mensaje = error($_GET["err"]);
+						$mensaje = error(intval($_GET["err"]));
 						echo ('<div class="col-12">
 				 <div class="card" style="color:red">
 				   <div class="card-header">
@@ -393,7 +393,7 @@ if (isset($_POST["operario_audi"])) {
 			   </div>');
 					}
 					if (isset($_GET["nice"])) {
-						$mensaje = nice($_GET["nice"]);
+						$mensaje = nice(intval($_GET["nice"]));
 						echo ('<div class="col-12">
 				 <div class="card" style="color:green">
 				   <div class="card-header">
