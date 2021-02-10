@@ -7,7 +7,7 @@ function execPrint($command) {
         print($line . "\n");
     }
     print("</pre>");
-}
+} 
 include('database.php');
 $sql = "SELECT * FROM ajustes WHERE nombre = 'gituser'";
 $do = mysqli_query($link, $sql);
