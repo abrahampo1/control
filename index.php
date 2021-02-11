@@ -295,10 +295,11 @@ if (isset($_POST["operario_audi"])) {
 }
 
 if (isset($_GET["gapi"])) {
-	if ($info_usuario["tipo"] == "supervisor") {
+	if ($datos_usuario["tipo"] == "supervisor") {
 		$nuevoapi = generateRandomString();
 		$sql = "UPDATE `usuarios` SET `api` = '$nuevoapi' WHERE `usuarios`.`id` = '$iduser'";
 		if ($do = mysqli_query($link, $sql)) {
+			header("location: index.php?nice=9");
 		} else {
 			echo "Error en la base de datos al actualizar el api";
 			exit;

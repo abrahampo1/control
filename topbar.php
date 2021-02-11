@@ -534,10 +534,8 @@ if(isset($_POST["mail_server"]))
                 echo '<div class="mb-3">
                 <label class="form-label">API</label>
                 <div class="input-group input-group-flat">
-                  <span class="input-group-text">
-                  </span>
-                  <p>'.$info_usuario["api"].'</p><br><a href="index.php?gapi=1" class="btn btn-link link-secondary">Generar clave API</a>
-                </div>
+                  <p>'.$info_usuario["api"].'</p><a href="index.php?gapi=1" class="btn btn-link link-secondary">Generar clave API</a>
+                  </div>
               </div>';
               }
               ?>
