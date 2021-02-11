@@ -341,7 +341,7 @@ if (isset($_POST["operario_audi"])) {
 									echo ('<span class="d-none d-sm-inline">
 					<a href="update.php" class="btn btn-white">
 					 Actualizar via Github
-					</a>
+					</a> 
 					<a href="update.php" class="btn btn-primary d-sm-none btn-icon" aria-label="Create new report">
 				  Act.
                   </a>
