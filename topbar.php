@@ -28,17 +28,18 @@ if (isset($_POST["clave_vieja"])) {
   }
 }
 if (isset($_POST["cuenta_nombre"])) {
+  $ok = 0;
   $nombre = $_POST["cuenta_nombre"];
   $mail = $_POST["cuenta_mail"];
   $sql = "UPDATE `usuarios` SET `nombre` = '$nombre', `mail` = '$mail' WHERE `usuarios`.`id` = $iduser";
   if ($do = mysqli_query($link, $sql)) {
-    header('location: index.php?nice=8');
+    $ok = 1;
   }else
   {
     echo mysqli_error($link);
     exit;
   }
-  if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
+  if (isset($_FILES['uploadedFile'])) {
     $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
     $fileName = $_FILES['uploadedFile']['name'];
     $fileSize = $_FILES['uploadedFile']['size'];
@@ -55,14 +56,21 @@ if (isset($_POST["cuenta_nombre"])) {
       }
       if (move_uploaded_file($fileTmpPath, $dest_path)) {
         $message = 'File is successfully uploaded.';
+        $ok = 1;
       } else {
         echo 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
         exit;
       }
     } else {
-      echo "Error: No es un archivo valido";
-      exit;
     }
+  }else
+  {
+    echo 'error al subir la imagen';
+    exit;
+  }
+  if($ok == 1)
+  {
+    header('location: index.php?nice=8');
   }
 }
 
@@ -510,9 +518,18 @@ if(isset($_POST["mail_server"]))
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <img src="dist/img/avatar/<?php echo $info_usuario["id"] ?>.png" width="150px" height="150px" style="border-radius: 5px;" alt="">
+                <?php
+                if(file_exists('dist/img/avatar/'.$info_usuario["id"].'.png'))
+                {
+                  echo '<img src="dist/img/avatar/'.$info_usuario["id"].'.png" width="150px" height="150px" style="border-radius: 5px;" alt="">';
+                }else
+                {
+                  echo '<img src="dist/img/avatar/default.png" width="150px" height="150px" style="border-radius: 5px;" alt="">';
+                }
+                ?>
                 <input type="file" name="uploadedFile" />
                 <br>
+                <hr>
                 <label class="form-label">Nombre</label>
                 <div class="input-group input-group-flat">
                   <span class="input-group-text">

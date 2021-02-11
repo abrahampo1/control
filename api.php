@@ -3,7 +3,7 @@ include("database.php");
 include("protect.php");
 if (isset($_GET["token"])) {
     $token = $_GET["token"];
-    $sql = "SELECT * FROM usuarios WHERE api = '$token'";
+    $sql = "SELECT * FROM usuarios WHERE api = BINARY '$token'";
     $do = mysqli_query($link, $sql);
     if ($do->num_rows != 0) {
         $info_cliente = mysqli_fetch_assoc($do);
@@ -30,8 +30,10 @@ if (isset($_GET["token"])) {
             header("location: index.php");
         }
     } else {
-        header("location: index.php");
+        echo "Clave Api incorrecta";
+        exit;
     }
 } else {
-    header("location: index.php");
+    echo "El API se encuentra en funcionamiento, si quieres saber como se usa, buscalo en la documentacion corresponiente";
+    exit;
 }
