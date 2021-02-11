@@ -9,10 +9,14 @@ if (isset($_GET["token"])) {
         $info_cliente = mysqli_fetch_assoc($do);
         if (isset($_GET["request"])) {
             $peticion = $_GET["request"];
+            $sql = "";
             if ($peticion == 'operarios') {
                 $sql = "SELECT * FROM personal";
             }
-
+            if($sql == "")
+            {
+                header("location: index.php");
+            }
             if ($do = mysqli_query($link, $sql)) {
                 $myArray = array();
                 while ($row = mysqli_fetch_assoc($do)) {
