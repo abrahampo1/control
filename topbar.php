@@ -528,6 +528,19 @@ if(isset($_POST["mail_server"]))
                   <input type="text" name="cuenta_mail" required class="form-control ps-0" value="<?php echo $info_usuario["mail"] ?>" placeholder="Escribe aqui..." autocomplete="off">
                 </div>
               </div>
+              <?php
+              if($info_usuario["tipo"] == "supervisor")
+              {
+                echo '<div class="mb-3">
+                <label class="form-label">API</label>
+                <div class="input-group input-group-flat">
+                  <span class="input-group-text">
+                  </span>
+                  <p>'.$info_usuario["api"].'</p><br><a href="index.php?gapi=1" class="btn btn-link link-secondary">Generar clave API</a>
+                </div>
+              </div>';
+              }
+              ?>
             </div>
           </div>
         </div>
