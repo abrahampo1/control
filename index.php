@@ -739,7 +739,8 @@ if (isset($_GET["gapi"])) {
 								<?php
 								$sql = "SELECT * FROM personal";
 								if ($do = mysqli_query($link, $sql)) {
-									echo ('<option value="" selected>Seleccione</option>');
+									echo ('<option value="" selected>Seleccione</option>
+									<option value="otro">Otro...</option>');
 									while ($row = mysqli_fetch_assoc($do)) {
 										echo ('<option value=' . $row["id"] . '>' . $row["num_operario"] . ' - ' . $row['nombre'] . '</option>');
 									}
