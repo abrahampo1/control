@@ -1,0 +1,41 @@
+body
+{
+ margin:0 auto;
+ padding:0px;
+ text-align:center;
+ width:100%;
+ font-family: "Myriad Pro","Helvetica Neue",Helvetica,Arial,Sans-Serif;
+ background-color:#F5EEF8;
+}
+#wrapper
+{
+ margin:0 auto;
+ padding:0px;
+ text-align:center;
+ width:9950px;
+}
+#wrapper h1
+{
+ margin-top:50px;
+ font-size:100px;
+ color:#884EA0;
+}
+#wrapper h1 p
+{
+ font-size:18px;
+}
+#barcode_div input[type="text"]
+{
+ width:3000px;
+ height:350px;
+ border:none;
+ padding-left:10px;
+ font-size:90px;
+}
+#barcode_div input[type="submit"]
+{
+ background-color:#884EA0;
+ border:none;
+ height:350px;
+ color:white;
+}
